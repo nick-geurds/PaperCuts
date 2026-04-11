@@ -1,10 +1,14 @@
 extends Node
 class_name SlotLogic
 
+
 @export var main_camera : Camera2D
 @export var size_padding_x : float
 @export var slots_amount : int
 @export var padding_per_slot : float
+
+@export var slot_positions : Array[Vector2]
+
 var slot_scene = preload("res://Scenes/slot.tscn")
 
 var camera_size_x : float
@@ -26,13 +30,19 @@ func Setup_Slots(startposition : float , slot_size : float ,startAmount : int = 
 	while startAmount < slots_amount:
 		var slot = slot_scene.instantiate()
 		add_child(slot)
+		
 		var _position = Vector2(startposition + (startAmount * (slot_size + padding_per_slot)), 0)
 		slot.global_position = _position
+		
 		var _slot_sprite : Sprite2D = slot.get_node("slot_sprite")
 		_slot_sprite.region_enabled = true
 		_slot_sprite.region_rect.size.x = slot_size
 		_slot_sprite.modulate = Color(1,1,1,1)
-		startAmount += 1
-		print(startAmount, _position)
 		
-	return
+		slot_positions.append(_position)
+		
+		startAmount += 1
+		
+	
+	
+	

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cr5aur1rim8ft"]
+
+[ext_resource type="Script" uid="uid://daxf5d3r7hl58" path="res://Scripts/Slot_Logic/SlotGenerator.gd" id="1_52fb6"]
+
+[node name="MainScene" type="Node2D" unique_id=1407119568]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=81006798]
+
+[node name="SlotManager" type="Node" parent="." unique_id=1059057129 node_paths=PackedStringArray("main_camera")]
+script = ExtResource("1_52fb6")
+main_camera = NodePath("../Camera2D")
+size_padding_x = 120.0
+slots_amount = 11
+padding_per_slot = 10.0

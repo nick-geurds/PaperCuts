@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dsg1ffdt807r2"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hcq3f"]
+light_mode = 1
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_luhj6"]
+
+[node name="Slot" type="Node2D" unique_id=1850449348]
+
+[node name="slot_sprite" type="Sprite2D" parent="." unique_id=721246003]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_hcq3f")
+texture = SubResource("CanvasTexture_luhj6")
+region_enabled = true
+region_rect = Rect2(0, 0, 11.03, 2)

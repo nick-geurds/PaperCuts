@@ -26,13 +26,21 @@ func Handle_Input(direction : int):
 	#currentIndex = clamp(currentIndex, 0, _slot_manager.slots_amount - 1)
 	
 func Check_Sots(direction : int):
-	if _slot_manager.slots_index[currentIndex + direction]["occupied"] == true:
-		if _slot_manager.slots_index[currentIndex + (direction * 2)]["occupied"] == true:
-			return
+	var last_index = currentIndex
+	var new_index = last_index + direction
+	var second_check = last_index + (direction * 2)
+	
+	if _slot_manager.slots_index[new_index]["occupied"] == true:
+		if second_check < _slot_manager.slots_amount and second_check >= 0:
+			if _slot_manager.slots_index[second_check]["occupied"] == true:
+				return
+			else:
+				currentIndex += (direction * 2)
 		else:
-			currentIndex += (direction * 2)
+			return
 	else:
 		currentIndex += direction
 	
 	currentIndex = clamp(currentIndex, 0 , _slot_manager.slots_amount - 1)
 	global_position = _slot_manager.slots_index[currentIndex]["position"]
+	_slot_manager.onPlayerMove.emit(last_index, currentIndex)

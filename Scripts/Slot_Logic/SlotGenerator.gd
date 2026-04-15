@@ -1,6 +1,7 @@
 extends Node
 class_name SlotLogic
 
+signal onPlayerMove(last_index : int, new_index : int)
 
 @export var main_camera : Camera2D
 @export var size_padding_x : float
@@ -17,6 +18,7 @@ var slot_scene = preload("res://Scenes/slot.tscn")
 var camera_size_x : float
 
 func _ready() -> void:
+	onPlayerMove.connect(SetOccupied)
 	camera_size_x = main_camera.get_viewport_rect().end.x
 	Calculate_Slots_Size()
 	
@@ -43,25 +45,35 @@ func Setup_Slots(startposition : float , slot_size : float ,startAmount : int = 
 		
 		
 		slot_positions.append(_position)
-		slots_index.append({"position" : Vector2(_position), "occupied" : false})
+		slots_index.append({"position" : Vector2(_position), "occupied" : false, "sprite" : _slot_sprite})
 		
-		if startAmount not in [3, slots_amount - 1]:
+		if startAmount not in [3, slots_amount - 2,slots_amount - 1]:
 			slots_index[startAmount]["occupied"] = false
 		else :
 			slots_index[startAmount]["occupied"] = true
 		
-		if slots_index[startAmount]["occupied"] == true:
-			_slot_sprite.modulate = Color(1,0,0,1)
-		else:
-			_slot_sprite.modulate = Color(0,0,1,1)
-			
+		#if slots_index[startAmount]["occupied"] == true:
+			#_slot_sprite.modulate = Color(1,0,0,1)
+		#else:
+			#_slot_sprite.modulate = Color(0,0,1,1)
+		
+		onPlayerMove.emit(0,0)
+		
 		print(slots_index[startAmount])
 		startAmount += 1
 		
 
-func UpdateVisuals():
-	for i in range(slots_amount):
+func SetOccupied(last_index : int, new_index : int):
+	for i in slots_index.size():
+		if i == new_index:
+			slots_index[i]["occupied"] = true
+		elif i == last_index:
+			slots_index[i]["occupied"] = false
 		
-		pass
+		SetVisual(i)
 	
-	
+func SetVisual(index : int):
+	if slots_index[index]["occupied"] == true:
+		slots_index[index]["sprite"].modulate = Color(1,0,0,1)
+	else:
+		slots_index[index]["sprite"].modulate = Color(0.0, 1.0, 0.0, 1.0)

@@ -8,6 +8,9 @@ class_name SlotLogic
 @export var padding_per_slot : float
 
 @export var slot_positions : Array[Vector2]
+@export var slot_state : Array[bool]
+
+@export var slots_index : Array = []
 
 var slot_scene = preload("res://Scenes/slot.tscn")
 
@@ -37,12 +40,28 @@ func Setup_Slots(startposition : float , slot_size : float ,startAmount : int = 
 		var _slot_sprite : Sprite2D = slot.get_node("slot_sprite")
 		_slot_sprite.region_enabled = true
 		_slot_sprite.region_rect.size.x = slot_size
-		_slot_sprite.modulate = Color(1,1,1,1)
+		
 		
 		slot_positions.append(_position)
+		slots_index.append({"position" : Vector2(_position), "occupied" : false})
 		
+		if startAmount not in [3, slots_amount - 1]:
+			slots_index[startAmount]["occupied"] = false
+		else :
+			slots_index[startAmount]["occupied"] = true
+		
+		if slots_index[startAmount]["occupied"] == true:
+			_slot_sprite.modulate = Color(1,0,0,1)
+		else:
+			_slot_sprite.modulate = Color(0,0,1,1)
+			
+		print(slots_index[startAmount])
 		startAmount += 1
 		
-	
+
+func UpdateVisuals():
+	for i in range(slots_amount):
+		
+		pass
 	
 	

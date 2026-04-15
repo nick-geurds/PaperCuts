@@ -13,7 +13,7 @@
 script = ExtResource("1_52fb6")
 main_camera = NodePath("../Camera2D")
 size_padding_x = 120.0
-slots_amount = 11
+slots_amount = 12
 padding_per_slot = 10.0
 
 [node name="player" type="Node" parent="." unique_id=588073252]

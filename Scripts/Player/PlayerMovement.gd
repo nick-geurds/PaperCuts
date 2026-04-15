@@ -8,7 +8,7 @@ var currentIndex : int
 func _ready() -> void:
 	_slot_manager = get_node("/root/MainScene/SlotManager")
 	if _slot_manager != null:
-		global_position = _slot_manager.slot_positions[0]
+		global_position = _slot_manager.slots_index[0]["position"]
 		currentIndex = 0
 	else:
 		print("slotManager = null")
@@ -21,7 +21,18 @@ func _process(delta: float):
 		Handle_Input(-1)
 
 func Handle_Input(direction : int):
-	currentIndex += direction
-	currentIndex = clamp(currentIndex, 0, _slot_manager.slots_amount - 1)
-	global_position = _slot_manager.slot_positions[currentIndex]
+	Check_Sots(direction)
+	#currentIndex += direction
+	#currentIndex = clamp(currentIndex, 0, _slot_manager.slots_amount - 1)
 	
+func Check_Sots(direction : int):
+	if _slot_manager.slots_index[currentIndex + direction]["occupied"] == true:
+		if _slot_manager.slots_index[currentIndex + (direction * 2)]["occupied"] == true:
+			return
+		else:
+			currentIndex += (direction * 2)
+	else:
+		currentIndex += direction
+	
+	currentIndex = clamp(currentIndex, 0 , _slot_manager.slots_amount - 1)
+	global_position = _slot_manager.slots_index[currentIndex]["position"]

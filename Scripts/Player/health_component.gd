@@ -7,8 +7,8 @@ var current_health : float
 func _ready() -> void:
 	current_health = max_health
 
-func TakeDamage(amount : float):
-	current_health -= amount
+func TakeDamage(attack : Attack):
+	current_health -= attack.damage_Amount
 	
 	if current_health <= 0:
 		Die()

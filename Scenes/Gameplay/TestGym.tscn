@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cbhpe3l5o6qkj"]
+
+[ext_resource type="Script" uid="uid://4la85des5n3o" path="res://Scripts/Player/health_component.gd" id="1_s2mc4"]
+[ext_resource type="Texture2D" uid="uid://clr8fvnt4tidb" path="res://icon.svg" id="2_uwjvn"]
+
+[node name="Main" type="Node2D" unique_id=648963873]
+
+[node name="HealthComponent" type="Node2D" parent="." unique_id=1576962605]
+script = ExtResource("1_s2mc4")
+
+[node name="Player" type="Node" parent="." unique_id=1116389873]
+
+[node name="PlayerHolder" type="Node2D" parent="Player" unique_id=1251804317]
+
+[node name="HealthComponent" type="Node2D" parent="Player/PlayerHolder" unique_id=1286794245]
+script = ExtResource("1_s2mc4")
+metadata/_custom_type_script = "uid://4la85des5n3o"
+
+[node name="PlayerVisual" type="Sprite2D" parent="Player" unique_id=118649911]
+texture = ExtResource("2_uwjvn")

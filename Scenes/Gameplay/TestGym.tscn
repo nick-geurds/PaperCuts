@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://cbhpe3l5o6qkj"]
 
 [ext_resource type="Script" uid="uid://4la85des5n3o" path="res://Scripts/Player/health_component.gd" id="1_s2mc4"]
+[ext_resource type="PackedScene" uid="uid://b7ovvx580brrd" path="res://Scenes/Components/Health_Component.tscn" id="2_cq6e8"]
 [ext_resource type="Texture2D" uid="uid://clr8fvnt4tidb" path="res://icon.svg" id="2_uwjvn"]
+[ext_resource type="PackedScene" uid="uid://ck46ihkpkr612" path="res://Scenes/Components/HitBox_Component.tscn" id="3_pmii7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tkdyf"]
+size = Vector2(126, 124)
 
 [node name="Main" type="Node2D" unique_id=648963873]
 
@@ -12,9 +17,12 @@ script = ExtResource("1_s2mc4")
 
 [node name="PlayerHolder" type="Node2D" parent="Player" unique_id=1251804317]
 
-[node name="HealthComponent" type="Node2D" parent="Player/PlayerHolder" unique_id=1286794245]
-script = ExtResource("1_s2mc4")
-metadata/_custom_type_script = "uid://4la85des5n3o"
+[node name="HealthComponent" parent="Player/PlayerHolder" unique_id=2143044079 instance=ExtResource("2_cq6e8")]
+
+[node name="HitBox_Component" parent="Player/PlayerHolder" unique_id=1197980968 instance=ExtResource("3_pmii7")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/PlayerHolder/HitBox_Component" unique_id=865599961]
+shape = SubResource("RectangleShape2D_tkdyf")
 
 [node name="PlayerVisual" type="Sprite2D" parent="Player" unique_id=118649911]
 texture = ExtResource("2_uwjvn")

@@ -6,7 +6,7 @@ signal onTotalWidthSet(target_width : float)
 @export var padding_per_slot : float
 @export var slot_amount : int
 
-var slot_index : Array = []
+@export var slot_index : Array = []
 
 var slot_scene : PackedScene
 var scene_camera : Camera2D

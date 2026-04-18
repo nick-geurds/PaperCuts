@@ -11,15 +11,20 @@ config_version=5
 [application]
 
 config/name="Paper Cuts"
+run/main_scene="uid://cbhpe3l5o6qkj"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [file_customization]
 
 folder_colors={
+"res://Art/": "orange",
+"res://Materials and themes/": "purple",
 "res://Scenes/": "blue",
 "res://Scripts/": "teal",
-"res://Scripts/Player/": "red"
+"res://Scripts/Camera/": "orange",
+"res://Scripts/Player/": "red",
+"res://Scripts/Slots/": "pink"
 }
 
 [physics]

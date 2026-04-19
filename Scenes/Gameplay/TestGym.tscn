@@ -1,58 +1,37 @@
 [gd_scene format=3 uid="uid://cbhpe3l5o6qkj"]
 
-[ext_resource type="Script" uid="uid://ckohoao8jfk17" path="res://Scripts/Player/player_input.gd" id="1_tkdyf"]
-[ext_resource type="PackedScene" uid="uid://b7ovvx580brrd" path="res://Scenes/Components/Health_Component.tscn" id="2_cq6e8"]
-[ext_resource type="PackedScene" uid="uid://ck46ihkpkr612" path="res://Scenes/Components/HitBox_Component.tscn" id="3_pmii7"]
-[ext_resource type="Script" uid="uid://brp6mwqfadobf" path="res://Scripts/Player/player_movement.gd" id="4_rjryc"]
+[ext_resource type="PackedScene" uid="uid://b2pgvjpug0vjl" path="res://Scenes/Objects/player.tscn" id="2_nsrwf"]
 [ext_resource type="Script" uid="uid://cilanbjpk0bun" path="res://Scripts/Slots/slot_manager.gd" id="5_pmii7"]
 [ext_resource type="Script" uid="uid://ko7tv5l7f8r8" path="res://Scripts/Camera/camera_setter.gd" id="5_tkdyf"]
-[ext_resource type="Texture2D" uid="uid://y0nk2mhqhkfa" path="res://Art/TestSprite.png" id="6_671q2"]
-[ext_resource type="Script" uid="uid://b6og30hpu1itl" path="res://Scripts/Player/entitie_visual_follower.gd" id="7_671q2"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tkdyf"]
-size = Vector2(126, 124)
 
 [sub_resource type="Curve" id="Curve_pmii7"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5018382, 0.49888146), 2.434004, 2.434004, 0, 0, Vector2(1, 1), 0.07686747, 0.0, 0, 0]
 point_count = 3
 metadata/_snap_count = 2
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nsrwf"]
+size = Vector2(106, 96)
+
 [node name="Main" type="Node2D" unique_id=648963873]
 
 [node name="SlotManager" type="Node" parent="." unique_id=1694321827]
 script = ExtResource("5_pmii7")
+padding_per_slot = 10.0
 slot_amount = 12
 
-[node name="Player" type="Node" parent="." unique_id=1116389873]
-script = ExtResource("1_tkdyf")
-
-[node name="PlayerHolder" type="Node2D" parent="Player" unique_id=1251804317]
-script = ExtResource("4_rjryc")
-
-[node name="HealthComponent" parent="Player/PlayerHolder" unique_id=2143044079 instance=ExtResource("2_cq6e8")]
-
-[node name="HitBox_Component" parent="Player/PlayerHolder" unique_id=1197980968 instance=ExtResource("3_pmii7")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/PlayerHolder/HitBox_Component" unique_id=865599961]
-position = Vector2(0, -63)
-shape = SubResource("RectangleShape2D_tkdyf")
-
-[node name="PlayerVisual" type="Sprite2D" parent="Player" unique_id=118649911 node_paths=PackedStringArray("object_to_follow")]
-position = Vector2(2.3841858e-07, -62.999996)
-scale = Vector2(0.22167969, 0.22167969)
-texture = ExtResource("6_671q2")
-offset = Vector2(0, -230)
-flip_h = true
-script = ExtResource("7_671q2")
-object_to_follow = NodePath("../PlayerHolder")
+[node name="Player" parent="." unique_id=1312596246 instance=ExtResource("2_nsrwf")]
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=755047547]
 limit_smoothed = true
 script = ExtResource("5_tkdyf")
-camera_padding_width = 180.0
+camera_padding_width = 240.0
 animation_curve = SubResource("Curve_pmii7")
 animation_time = 0.8
 
+[node name="OccupiedTest" type="Area2D" parent="." unique_id=2033973766]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OccupiedTest" unique_id=1508196181]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_nsrwf")
+
 [connection signal="onTotalWidthSet" from="SlotManager" to="MainCamera" method="_on_slot_manager_on_total_width_set"]
-[connection signal="onMove" from="Player" to="Player/PlayerHolder" method="_on_player_on_move"]
-[connection signal="onDirectionChange" from="Player/PlayerHolder" to="Player/PlayerVisual" method="_on_player_holder_on_direction_change"]

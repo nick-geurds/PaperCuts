@@ -2,11 +2,14 @@ extends Node2D
 class_name PlayerMovement
 
 signal onDirectionChange(isFacingRight : bool)
+signal onValidMove
 
 @onready var slot_manager : SlotManager = get_tree().root.get_node("Main").get_node("SlotManager")
 
 var lastDirection : float
 var currentIndex : int
+
+var debug_test : int = 0
 
 func _ready() -> void:
 	position = slot_manager.slot_index[0].position
@@ -17,10 +20,12 @@ func _on_player_on_move(direction: float) -> void:
 	if direction != lastDirection:
 		if direction < 0:
 			onDirectionChange.emit(false)
-			print("Direction has changed, new direction = left" )
+			#print("Direction has changed, new direction = left" )
 		else :
 			onDirectionChange.emit(true)
-			print("Direction has changed, new direction = right" )
+			#print("Direction has changed, new direction = right" )
+		
+		onValidMove.emit()
 	else:
 		CheckIfCanMove(direction)
 	
@@ -29,7 +34,27 @@ func _on_player_on_move(direction: float) -> void:
 func CheckIfCanMove(direction : float):
 	var new_index = currentIndex + direction
 	
-	currentIndex = new_index
+	if CheckIfInRange(new_index):
+		if CheckIfSlotIsFree(new_index): 
+			Move(new_index)
+			currentIndex = new_index
+		else :
+			var second_check_index = new_index + direction
+			
+			if CheckIfSlotIsFree(second_check_index): 
+				if CheckIfInRange(second_check_index):
+					Move(second_check_index)
+					currentIndex = second_check_index
+
+func CheckIfInRange(index : int) -> bool:
+	return index < slot_manager.slot_index.size() and index >= 0
 	
-	currentIndex = clamp(currentIndex,0, slot_manager.slot_amount - 1)
+func CheckIfSlotIsFree(index : int) -> bool:
+	var target_slot = slot_manager.slot_index[index] as SlotBase
+	return target_slot.is_free()
+	
+
+func Move(index : int):
+	currentIndex = clamp(index,0, slot_manager.slot_amount - 1)
 	global_position = slot_manager.slot_index[currentIndex].position
+	onValidMove.emit()

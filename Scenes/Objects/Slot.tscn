@@ -4,12 +4,20 @@
 [ext_resource type="Theme" uid="uid://c4taamd3h84at" path="res://Materials and themes/DefaultBorderTheme.tres" id="2_udd30"]
 
 [node name="SlotBase" type="Sprite2D" unique_id=705849675]
-self_modulate = Color(0.4075654, 0.40756536, 0.40756533, 1)
+self_modulate = Color(0.40784314, 0.40784314, 0.40784314, 0)
 texture = ExtResource("1_xrklt")
 region_enabled = true
 region_rect = Rect2(130, 0, 120, 14)
 
-[node name="SlotBorder" type="Panel" parent="." unique_id=208868001]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1734961925]
+self_modulate = Color(0.32024416, 0.32024416, 0.32024413, 1)
+z_index = 10
+position = Vector2(0, 70)
+texture = ExtResource("1_xrklt")
+region_enabled = true
+region_rect = Rect2(130, 0, 120, 14)
+
+[node name="SlotBorder" type="Panel" parent="Sprite2D" unique_id=208868001]
 self_modulate = Color(0, 0, 0.12156863, 0.7058824)
 anchors_preset = 15
 anchor_right = 1.0

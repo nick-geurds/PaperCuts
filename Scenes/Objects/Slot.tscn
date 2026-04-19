@@ -1,15 +1,35 @@
 [gd_scene format=3 uid="uid://2h6ph8veos77"]
 
+[ext_resource type="Script" uid="uid://d108gouyp1kbc" path="res://Scripts/Slots/slot_base.gd" id="1_udd30"]
 [ext_resource type="Texture2D" uid="uid://qey41v0ojkp2" path="res://Art/SlotSpriteSheet.png" id="1_xrklt"]
+[ext_resource type="Script" uid="uid://d2f676kx30i4f" path="res://Scripts/Slots/state_machine.gd" id="2_kx28e"]
 [ext_resource type="Theme" uid="uid://c4taamd3h84at" path="res://Materials and themes/DefaultBorderTheme.tres" id="2_udd30"]
+[ext_resource type="Script" uid="uid://ccf5e1rbtccro" path="res://Scripts/Slots/state_slot_free.gd" id="4_bx76a"]
+[ext_resource type="Script" uid="uid://bhgvxw6grndm8" path="res://Scripts/Slots/state_slot_occupied.gd" id="4_dgmwc"]
 
-[node name="SlotBase" type="Sprite2D" unique_id=705849675]
-self_modulate = Color(0.40784314, 0.40784314, 0.40784314, 0)
-texture = ExtResource("1_xrklt")
-region_enabled = true
-region_rect = Rect2(130, 0, 120, 14)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrklt"]
+size = Vector2(92, 92)
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1734961925]
+[node name="SlotBase" type="Node2D" unique_id=286476743 node_paths=PackedStringArray("slot_base_sprite", "slot_state_machine")]
+script = ExtResource("1_udd30")
+slot_base_sprite = NodePath("SlotBaseSprite")
+slot_state_machine = NodePath("SlotStateMachine")
+
+[node name="SlotStateMachine" type="Node" parent="." unique_id=321641452 node_paths=PackedStringArray("initialState")]
+script = ExtResource("2_kx28e")
+initialState = NodePath("Free")
+
+[node name="Free" type="Node" parent="SlotStateMachine" unique_id=1409312357 node_paths=PackedStringArray("slot_border_panel")]
+script = ExtResource("4_bx76a")
+slot_border_panel = NodePath("../../SlotBaseSprite/SlotBorder")
+slot_border_color = Color(0.05994244, 2.2320635e-05, 0.24972719, 0.7058824)
+
+[node name="Occupied" type="Node" parent="SlotStateMachine" unique_id=115064389 node_paths=PackedStringArray("slot_border_panel")]
+script = ExtResource("4_dgmwc")
+slot_border_panel = NodePath("../../SlotBaseSprite/SlotBorder")
+slot_border_color = Color(1, 0, 0, 1)
+
+[node name="SlotBaseSprite" type="Sprite2D" parent="." unique_id=1734961925]
 self_modulate = Color(0.32024416, 0.32024416, 0.32024413, 1)
 z_index = 10
 position = Vector2(0, 70)
@@ -17,7 +37,7 @@ texture = ExtResource("1_xrklt")
 region_enabled = true
 region_rect = Rect2(130, 0, 120, 14)
 
-[node name="SlotBorder" type="Panel" parent="Sprite2D" unique_id=208868001]
+[node name="SlotBorder" type="Panel" parent="SlotBaseSprite" unique_id=208868001]
 self_modulate = Color(0, 0, 0.12156863, 0.7058824)
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,3 +50,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_udd30")
 metadata/_edit_use_anchors_ = true
+
+[node name="SlotArea2D" type="Area2D" parent="." unique_id=911639954]
+
+[node name="SlotAreaCollisionShape" type="CollisionShape2D" parent="SlotArea2D" unique_id=1224555866]
+position = Vector2(0, 21)
+shape = SubResource("RectangleShape2D_xrklt")
+
+[connection signal="area_entered" from="SlotArea2D" to="SlotStateMachine/Free" method="_on_slot_area_2d_area_entered"]
+[connection signal="area_exited" from="SlotArea2D" to="SlotStateMachine/Occupied" method="_on_slot_area_2d_area_exited"]

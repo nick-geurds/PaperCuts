@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://b2pgvjpug0vjl"]
+
+[ext_resource type="Script" uid="uid://ckohoao8jfk17" path="res://Scripts/Player/player_input.gd" id="1_5uqce"]
+[ext_resource type="Script" uid="uid://brp6mwqfadobf" path="res://Scripts/Player/player_movement.gd" id="2_h6i5h"]
+[ext_resource type="PackedScene" uid="uid://b7ovvx580brrd" path="res://Scenes/Components/Health_Component.tscn" id="3_y42te"]
+[ext_resource type="PackedScene" uid="uid://ck46ihkpkr612" path="res://Scenes/Components/HitBox_Component.tscn" id="4_2i876"]
+[ext_resource type="Texture2D" uid="uid://y0nk2mhqhkfa" path="res://Art/TestSprite.png" id="5_jvxap"]
+[ext_resource type="Script" uid="uid://b6og30hpu1itl" path="res://Scripts/Player/entitie_visual_follower.gd" id="6_0b04c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tkdyf"]
+size = Vector2(126, 124)
+
+[node name="Player" type="Node" unique_id=1312596246]
+script = ExtResource("1_5uqce")
+
+[node name="PlayerHolder" type="Node2D" parent="." unique_id=392294361]
+script = ExtResource("2_h6i5h")
+
+[node name="HealthComponent" parent="PlayerHolder" unique_id=2143044079 instance=ExtResource("3_y42te")]
+
+[node name="HitBox_Component" parent="PlayerHolder" unique_id=1197980968 instance=ExtResource("4_2i876")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHolder/HitBox_Component" unique_id=1980717478]
+position = Vector2(0, -63)
+shape = SubResource("RectangleShape2D_tkdyf")
+
+[node name="PlayerVisual" type="Sprite2D" parent="." unique_id=72645833 node_paths=PackedStringArray("object_to_follow")]
+z_index = 100
+position = Vector2(2.3841858e-07, -62.999996)
+scale = Vector2(0.22167969, 0.22167969)
+texture = ExtResource("5_jvxap")
+offset = Vector2(0, -230)
+flip_h = true
+script = ExtResource("6_0b04c")
+object_to_follow = NodePath("../PlayerHolder")
+
+[connection signal="onMove" from="." to="PlayerHolder" method="_on_player_on_move"]
+[connection signal="onDirectionChange" from="PlayerHolder" to="PlayerVisual" method="_on_player_holder_on_direction_change"]

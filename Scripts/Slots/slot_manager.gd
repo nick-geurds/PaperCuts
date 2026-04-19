@@ -26,7 +26,8 @@ func Setup_Slots():
 		
 		slot_index.append(slot)
 		
-		var slot_width = slot.get_rect().size.x
+		var slot_script = slot as SlotBase
+		var slot_width = slot_script.slot_width
 		
 		if i == 0:
 			total_slots_width = (slot_amount - 1) * (slot_width + padding_per_slot)

@@ -17,14 +17,14 @@ size = Vector2(106, 96)
 [node name="SlotManager" type="Node" parent="." unique_id=1694321827]
 script = ExtResource("5_pmii7")
 padding_per_slot = 10.0
-slot_amount = 12
+slot_amount = 13
 
 [node name="Player" parent="." unique_id=1312596246 instance=ExtResource("2_nsrwf")]
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=755047547]
 limit_smoothed = true
 script = ExtResource("5_tkdyf")
-camera_padding_width = 240.0
+camera_padding_width = 25.0
 animation_curve = SubResource("Curve_pmii7")
 animation_time = 0.8
 

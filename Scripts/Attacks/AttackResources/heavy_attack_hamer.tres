@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AttackData" format=3 uid="uid://dhqx0mfwx883s"]
+
+[ext_resource type="Script" uid="uid://coq6tt0pnc8h3" path="res://Scripts/Attacks/attack_data.gd" id="1_r0st8"]
+
+[resource]
+script = ExtResource("1_r0st8")
+animation_name = "Heavy_Attack"
+damage_amount = 1.5
+attack_range = 2
+isComplex = true
+metadata/_custom_type_script = "uid://coq6tt0pnc8h3"

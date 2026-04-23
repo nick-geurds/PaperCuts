@@ -2,9 +2,13 @@ extends Node2D
 class_name PlayerMovement
 
 signal onDirectionChange(isFacingRight : bool)
-signal onValidMove
+signal onPlayerPositionChanged(current_index : int, last_direction : int)
+signal checkIfCanMove(ObserverName : String, index : int)
+signal getPosition(ObserverName : String, index : int)
 
-@onready var slot_manager : SlotManager = get_tree().root.get_node("Main").get_node("SlotManager")
+@export var player_state_machine : PlayerStateMachine
+@export var moving_state : State
+@export var slot_data : SlotDataTransform
 
 var lastDirection : float
 var currentIndex : int
@@ -12,49 +16,67 @@ var currentIndex : int
 var debug_test : int = 0
 
 func _ready() -> void:
-	position = slot_manager.slot_index[0].position
-	currentIndex = 0
-	lastDirection = 1
+	#var player_input = get_parent() as PlayerInput
+	var startSlot : int
+	startSlot = 0
+	if startSlot == 0 :
+		lastDirection = 1
+	position = slot_data.slot_manager.slot_index[startSlot].position
+	currentIndex = startSlot
+	checkIfCanMove.connect(slot_data.CheckSlotState)
+	slot_data.checkedSlotState.connect(CanMove)
+	getPosition.connect(slot_data.setPosition)
+	slot_data.setPositionSignal.connect(Move)
+	onPlayerPositionChanged.connect(slot_data.updatePlayerPositionIndex)
+	
+	onPlayerPositionChanged.emit(currentIndex, lastDirection)
+	
+	print("state machine = " + str(player_state_machine))
+	
 
 func _on_player_on_move(direction: float) -> void:
+	
+	if !player_state_machine.can_move():
+		return
+		
 	if direction != lastDirection:
 		if direction < 0:
-			onDirectionChange.emit(false)
-			#print("Direction has changed, new direction = left" )
-		else :
 			onDirectionChange.emit(true)
-			#print("Direction has changed, new direction = right" )
-		
-		onValidMove.emit()
+		else :
+			onDirectionChange.emit(false)
 	else:
-		CheckIfCanMove(direction)
+		CheckIfCanMove()
 	
 	lastDirection = direction
+	onPlayerPositionChanged.emit(currentIndex, lastDirection)
 
-func CheckIfCanMove(direction : float):
-	var new_index = currentIndex + direction
+func CheckIfCanMove():
+	#var new_index = currentIndex + direction
+	var new_index = slot_data.getNextSlotIndex(1)
+	checkIfCanMove.emit(name, new_index)
 	
-	if CheckIfInRange(new_index):
-		if CheckIfSlotIsFree(new_index): 
-			Move(new_index)
-			currentIndex = new_index
-		else :
-			var second_check_index = new_index + direction
+
+func CanMove(observer_name : String, isInRange : bool , isFree : bool, index : int):
+	if observer_name != name:
+		return
+	
+	if not isInRange:
+		return
+		
+	if isFree:
+		getPosition.emit(name, index)
+	else:
+		var second_index = slot_data.getNextSlotIndex(2)  
+		
+		if not slot_data.CheckIfInRange(second_index):
+			return
+		
+		if slot_data.CheckIfSlotIsFree(second_index):
+			getPosition.emit(name, second_index)
 			
-			if CheckIfSlotIsFree(second_check_index): 
-				if CheckIfInRange(second_check_index):
-					Move(second_check_index)
-					currentIndex = second_check_index
-
-func CheckIfInRange(index : int) -> bool:
-	return index < slot_manager.slot_index.size() and index >= 0
-	
-func CheckIfSlotIsFree(index : int) -> bool:
-	var target_slot = slot_manager.slot_index[index] as SlotBase
-	return target_slot.is_free()
-	
-
-func Move(index : int):
-	currentIndex = clamp(index,0, slot_manager.slot_amount - 1)
-	global_position = slot_manager.slot_index[currentIndex].position
-	onValidMove.emit()
+func Move(observer_name : String, current_slot_index : int, slot_position : Vector2):
+	if observer_name != name:
+		return
+	currentIndex = current_slot_index
+	global_position = slot_position
+	onPlayerPositionChanged.emit(currentIndex, lastDirection)

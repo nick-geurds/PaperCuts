@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AttackData" format=3 uid="uid://c8e6n3id5cgdq"]
+
+[ext_resource type="Script" uid="uid://coq6tt0pnc8h3" path="res://Scripts/Attacks/attack_data.gd" id="1_p2aag"]
+
+[resource]
+script = ExtResource("1_p2aag")
+animation_name = "Light_Attack"
+damage_amount = 1.0
+attack_range = 1
+metadata/_custom_type_script = "uid://coq6tt0pnc8h3"

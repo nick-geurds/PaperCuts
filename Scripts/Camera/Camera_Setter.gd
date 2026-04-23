@@ -14,7 +14,9 @@ func _on_slot_manager_on_total_width_set(target_width : float) -> void:
 	visible_width = get_viewport_rect().size.x
 	start_zoom = zoom
 	
-	target_zoom.x = (start_zoom.x * visible_width) / (target_width + camera_padding_width)
+	var padding : float = (visible_width * camera_padding_width) / 100
+	
+	target_zoom.x = visible_width / (target_width + padding)
 	target_zoom.y = target_zoom.x
 	print(target_zoom)
 	

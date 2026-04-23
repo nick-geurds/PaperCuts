@@ -37,3 +37,8 @@ func Setup_Slots():
 		var  startpos_x = i * (slot_width + padding_per_slot) - startpos_offset
 		
 		slot.global_position = Vector2(startpos_x,0)
+
+func get_slot(index : int) -> SlotBase:
+	if index < 0 or index >= slot_index.size():
+		return null
+	return slot_index[index]

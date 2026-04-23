@@ -9,7 +9,6 @@ func Enter():
 func Exit():
 	pass
 	
-
 func Update(delta : float):
 	pass
 

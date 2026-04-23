@@ -2,27 +2,314 @@
 
 [ext_resource type="Script" uid="uid://ckohoao8jfk17" path="res://Scripts/Player/player_input.gd" id="1_5uqce"]
 [ext_resource type="Script" uid="uid://brp6mwqfadobf" path="res://Scripts/Player/player_movement.gd" id="2_h6i5h"]
+[ext_resource type="Script" uid="uid://crq2riomdl0tx" path="res://Scripts/Player/PlayerStates/state_machine_player.gd" id="2_jvxap"]
+[ext_resource type="Script" uid="uid://dhhcukt1be6h0" path="res://Scripts/Player/PlayerStates/player_move_state.gd" id="3_jvxap"]
 [ext_resource type="PackedScene" uid="uid://b7ovvx580brrd" path="res://Scenes/Components/Health_Component.tscn" id="3_y42te"]
+[ext_resource type="Script" uid="uid://bu3lgmhj8re6j" path="res://Scripts/Player/PlayerStates/player_attacking_state.gd" id="4_0b04c"]
 [ext_resource type="PackedScene" uid="uid://ck46ihkpkr612" path="res://Scenes/Components/HitBox_Component.tscn" id="4_2i876"]
+[ext_resource type="Resource" uid="uid://c8e6n3id5cgdq" path="res://Scripts/Attacks/AttackResources/base_attack_hamer.tres" id="5_1mxid"]
+[ext_resource type="Script" uid="uid://cnl05wv738gtn" path="res://Scripts/Player/slot_index_data_player.gd" id="5_6odyb"]
 [ext_resource type="Texture2D" uid="uid://y0nk2mhqhkfa" path="res://Art/TestSprite.png" id="5_jvxap"]
 [ext_resource type="Script" uid="uid://b6og30hpu1itl" path="res://Scripts/Player/entitie_visual_follower.gd" id="6_0b04c"]
+[ext_resource type="Resource" uid="uid://dhqx0mfwx883s" path="res://Scripts/Attacks/AttackResources/heavy_attack_hamer.tres" id="6_h2jbs"]
+[ext_resource type="Script" uid="uid://npndr3bxjcjc" path="res://Scripts/Attacks/SpawnAttackHandler.gd" id="8_h2jbs"]
+[ext_resource type="PackedScene" uid="uid://brabd2vq8rfms" path="res://Scenes/attacks/RockSpikeScene.tscn" id="9_ea56u"]
+[ext_resource type="Texture2D" uid="uid://b66fv0l1jc8jh" path="res://Art/TestLightAttack.png" id="11_0b04c"]
+
+[sub_resource type="Animation" id="Animation_ea56u"]
+resource_name = "SpawnSpikes"
+length = 0.4
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [1],
+"method": &"spawn_at_slot"
+}, {
+"args": [2],
+"method": &"spawn_at_slot"
+}, {
+"args": [3],
+"method": &"spawn_at_slot"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ietw"]
+_data = {
+&"SpawnSpikes": SubResource("Animation_ea56u")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tkdyf"]
 size = Vector2(126, 124)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6odyb"]
+load_path = "res://.godot/imported/TestHeavyAttack.png-be2db109799c7d75444396614fd46810.ctex"
+
+[sub_resource type="Animation" id="Animation_1mxid"]
+resource_name = "Heavy_Attack"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CompressedTexture2D_6odyb")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerStateMachine/Attacking")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"doSpawnAttack"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_h6i5h"]
+resource_name = "Light_Attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("11_0b04c")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0b04c"]
+load_path = "res://.godot/imported/TestIdle.png-c714acea5fca4fa2b88fde4c5aff0d0c.ctex"
+
+[sub_resource type="Animation" id="Animation_0b04c"]
+resource_name = "Null_state"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CompressedTexture2D_0b04c")]
+}
+
+[sub_resource type="Animation" id="Animation_6odyb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_jvxap")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y42te"]
+_data = {
+&"Heavy_Attack": SubResource("Animation_1mxid"),
+&"Light_Attack": SubResource("Animation_h6i5h"),
+&"Null_state": SubResource("Animation_0b04c"),
+&"RESET": SubResource("Animation_6odyb")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0b04c"]
+animation = &"Heavy_Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1mxid"]
+animation = &"Light_Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h2jbs"]
+animation = &"Null_state"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ea56u"]
+break_loop_at_end = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8ietw"]
+advance_condition = &"is_attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5rt57"]
+advance_condition = &"is_moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6odyb"]
+advance_condition = &"is_attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1mxid"]
+advance_condition = &"is_moving"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_u2cyj"]
+states/End/position = Vector2(675.52, 107.2)
+states/Heavy_Attack/node = SubResource("AnimationNodeAnimation_0b04c")
+states/Heavy_Attack/position = Vector2(417.48, 77.200005)
+states/Light_Attack/node = SubResource("AnimationNodeAnimation_1mxid")
+states/Light_Attack/position = Vector2(417.2, 193.49121)
+states/Null_state/node = SubResource("AnimationNodeAnimation_h2jbs")
+states/Null_state/position = Vector2(236.40002, 98.97215)
+states/Start/position = Vector2(116.799995, 100.5632)
+transitions = ["Start", "Null_state", SubResource("AnimationNodeStateMachineTransition_ea56u"), "Null_state", "Light_Attack", SubResource("AnimationNodeStateMachineTransition_8ietw"), "Light_Attack", "Null_state", SubResource("AnimationNodeStateMachineTransition_5rt57"), "Null_state", "Heavy_Attack", SubResource("AnimationNodeStateMachineTransition_6odyb"), "Heavy_Attack", "Null_state", SubResource("AnimationNodeStateMachineTransition_1mxid")]
+graph_offset = Vector2(-5, 34)
+
 [node name="Player" type="Node" unique_id=1312596246]
 script = ExtResource("1_5uqce")
+player_id = 0
 
-[node name="PlayerHolder" type="Node2D" parent="." unique_id=392294361]
+[node name="PlayerStateMachine" type="Node" parent="." unique_id=908629008 node_paths=PackedStringArray("initial_state", "animation_tree", "state_debug")]
+script = ExtResource("2_jvxap")
+initial_state = NodePath("Moving")
+animation_tree = NodePath("../AnimationTree")
+state_debug = NodePath("../PlayerMoveComponent/StateDebug")
+metadata/_custom_type_script = "uid://d2f676kx30i4f"
+
+[node name="Moving" type="Node" parent="PlayerStateMachine" unique_id=1657417896 node_paths=PackedStringArray("player_state_machine")]
+script = ExtResource("3_jvxap")
+player_state_machine = NodePath("..")
+can_move = true
+metadata/_custom_type_script = "uid://dhhcukt1be6h0"
+
+[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("player_state_machine", "spawn_attack_handler")]
+script = ExtResource("4_0b04c")
+player_state_machine = NodePath("..")
+base_attack = ExtResource("5_1mxid")
+heavy_attack = ExtResource("6_h2jbs")
+spawn_attack_handler = NodePath("../../SpikeSpawnHandler")
+metadata/_custom_type_script = "uid://bu3lgmhj8re6j"
+
+[node name="AttackTimer" type="Timer" parent="PlayerStateMachine/Attacking" unique_id=1724971335]
+wait_time = 0.5
+one_shot = true
+
+[node name="Slot_index_data" type="Node" parent="." unique_id=565157714]
+script = ExtResource("5_6odyb")
+
+[node name="SpikeSpawnHandler" type="Node" parent="." unique_id=55490018 node_paths=PackedStringArray("animation_player", "slot_data")]
+script = ExtResource("8_h2jbs")
+animation_player = NodePath("SpikeSpawn")
+animation_name = "SpawnSpikes"
+slot_data = NodePath("../Slot_index_data")
+object_to_spawn_scene = ExtResource("9_ea56u")
+metadata/_custom_type_script = "uid://npndr3bxjcjc"
+
+[node name="SpikeSpawn" type="AnimationPlayer" parent="SpikeSpawnHandler" unique_id=1471742064]
+libraries/ = SubResource("AnimationLibrary_8ietw")
+
+[node name="PlayerMoveComponent" type="Node2D" parent="." unique_id=392294361 node_paths=PackedStringArray("player_state_machine", "moving_state", "slot_data")]
 script = ExtResource("2_h6i5h")
+player_state_machine = NodePath("../PlayerStateMachine")
+moving_state = NodePath("../PlayerStateMachine/Moving")
+slot_data = NodePath("../Slot_index_data")
 
-[node name="HealthComponent" parent="PlayerHolder" unique_id=2143044079 instance=ExtResource("3_y42te")]
+[node name="HealthComponent" parent="PlayerMoveComponent" unique_id=2143044079 instance=ExtResource("3_y42te")]
 
-[node name="HitBox_Component" parent="PlayerHolder" unique_id=1197980968 instance=ExtResource("4_2i876")]
+[node name="HitBox_Component_Player" parent="PlayerMoveComponent" unique_id=1197980968 node_paths=PackedStringArray("health_component") instance=ExtResource("4_2i876")]
+health_component = NodePath("../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHolder/HitBox_Component" unique_id=1980717478]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerMoveComponent/HitBox_Component_Player" unique_id=1980717478]
 position = Vector2(0, -63)
 shape = SubResource("RectangleShape2D_tkdyf")
+
+[node name="StateDebug" type="Label" parent="PlayerMoveComponent" unique_id=1904626498]
+offset_left = -72.0
+offset_top = -262.0
+offset_right = 70.0
+offset_bottom = -178.0
 
 [node name="PlayerVisual" type="Sprite2D" parent="." unique_id=72645833 node_paths=PackedStringArray("object_to_follow")]
 z_index = 100
@@ -30,9 +317,25 @@ position = Vector2(2.3841858e-07, -62.999996)
 scale = Vector2(0.22167969, 0.22167969)
 texture = ExtResource("5_jvxap")
 offset = Vector2(0, -230)
-flip_h = true
 script = ExtResource("6_0b04c")
-object_to_follow = NodePath("../PlayerHolder")
+object_to_follow = NodePath("../PlayerMoveComponent")
 
-[connection signal="onMove" from="." to="PlayerHolder" method="_on_player_on_move"]
-[connection signal="onDirectionChange" from="PlayerHolder" to="PlayerVisual" method="_on_player_holder_on_direction_change"]
+[node name="PlayerAnimations" type="AnimationPlayer" parent="." unique_id=1181832516]
+libraries/ = SubResource("AnimationLibrary_y42te")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=2014310537]
+active = false
+tree_root = SubResource("AnimationNodeStateMachine_u2cyj")
+anim_player = NodePath("../PlayerAnimations")
+parameters/conditions/is_attacking = false
+parameters/conditions/is_moving = false
+
+[connection signal="onAttack" from="." to="PlayerStateMachine/Moving" method="onAttackInput"]
+[connection signal="onMove" from="." to="PlayerMoveComponent" method="_on_player_on_move"]
+[connection signal="checkedSlotState" from="Slot_index_data" to="PlayerMoveComponent" method="CanMove"]
+[connection signal="setPositionSignal" from="Slot_index_data" to="PlayerMoveComponent" method="Move_2"]
+[connection signal="checkIfCanMove" from="PlayerMoveComponent" to="Slot_index_data" method="CheckSlotState"]
+[connection signal="getPosition" from="PlayerMoveComponent" to="Slot_index_data" method="setPosition"]
+[connection signal="onDirectionChange" from="PlayerMoveComponent" to="PlayerVisual" method="_on_player_holder_on_direction_change"]
+[connection signal="onPlayerPositionChanged" from="PlayerMoveComponent" to="Slot_index_data" method="updatePlayerPositionIndex"]
+[connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/Attacking" method="_on_animation_tree_animation_finished"]

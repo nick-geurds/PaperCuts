@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dmh6kl8vf7wov" path="res://Scripts/Attacks/SpikeAttack.gd" id="1_y4v7x"]
 [ext_resource type="Texture2D" uid="uid://by2ty6bfxdfqa" path="res://Art/spikes test.png" id="2_jin47"]
-[ext_resource type="Script" uid="uid://df7d8y21pkrn0" path="res://Scripts/Player/hitbox_component.gd" id="3_cles2"]
+[ext_resource type="Script" uid="uid://dyjjgb6m00cr0" path="res://Scripts/Player/hitbox_component.gd" id="3_cles2"]
 
 [sub_resource type="Animation" id="Animation_4xwc8"]
 length = 0.001
@@ -45,19 +45,19 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("HitBox:monitorable")
+tracks/3/path = NodePath("HitBoxComponent:monitoring")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_wxect"]
 resource_name = "RockStart"
-length = 0.6
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -96,12 +96,12 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("HitBox:monitorable")
+tracks/3/enabled = false
+tracks/3/path = NodePath("HitBoxComponent:monitoring")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.31),
+"times": PackedFloat32Array(0, 0.06666667, 0.36666667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -113,7 +113,8 @@ _data = {
 &"RockSpikes": SubResource("Animation_wxect")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_edkxy"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y4v7x"]
+size = Vector2(46, 58)
 
 [node name="SpikeRocksAttack" type="Node2D" unique_id=1159400447 node_paths=PackedStringArray("animation_player")]
 script = ExtResource("1_y4v7x")
@@ -153,12 +154,14 @@ region_rect = Rect2(1961, 734, 549, 290)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1994449550]
 active = false
 libraries/ = SubResource("AnimationLibrary_xqm8y")
-movie_quit_on_finish = true
 
-[node name="HitBox" type="Area2D" parent="." unique_id=1271902823]
-monitorable = false
+[node name="HitBoxComponent" type="Area2D" parent="." unique_id=1457796596]
+collision_mask = 2
 script = ExtResource("3_cles2")
-metadata/_custom_type_script = "uid://df7d8y21pkrn0"
+metadata/_custom_type_script = "uid://dyjjgb6m00cr0"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=125925027]
-shape = SubResource("RectangleShape2D_edkxy")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent" unique_id=1454335600]
+shape = SubResource("RectangleShape2D_y4v7x")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[connection signal="area_entered" from="HitBoxComponent" to="HitBoxComponent" method="_on_area_entered"]

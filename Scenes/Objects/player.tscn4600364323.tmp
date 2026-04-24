@@ -283,11 +283,10 @@ player_id = 0
 script = ExtResource("17_5rt57")
 metadata/_custom_type_script = "uid://4la85des5n3o"
 
-[node name="PlayerStateMachine" type="Node" parent="." unique_id=908629008 node_paths=PackedStringArray("initial_state", "animation_tree", "animation_player", "state_debug")]
+[node name="PlayerStateMachine" type="Node" parent="." unique_id=908629008 node_paths=PackedStringArray("initial_state", "animation_tree", "state_debug")]
 script = ExtResource("2_jvxap")
 initial_state = NodePath("Moving")
 animation_tree = NodePath("../AnimationTree")
-animation_player = NodePath("../PlayerAnimations")
 state_debug = NodePath("../PlayerMoveComponent/StateDebug")
 metadata/_custom_type_script = "uid://d2f676kx30i4f"
 
@@ -297,12 +296,11 @@ player_state_machine = NodePath("..")
 can_move = true
 metadata/_custom_type_script = "uid://dhhcukt1be6h0"
 
-[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("player_state_machine", "melee_attack_hitbox", "spawn_attack_handler")]
+[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("player_state_machine", "spawn_attack_handler")]
 script = ExtResource("4_0b04c")
 player_state_machine = NodePath("..")
 base_attack = ExtResource("5_1mxid")
 heavy_attack = ExtResource("6_h2jbs")
-melee_attack_hitbox = NodePath("../../PlayerVisual/HitBoxComponent")
 spawn_attack_handler = NodePath("../../SpikeSpawnHandler")
 metadata/_custom_type_script = "uid://bu3lgmhj8re6j"
 
@@ -335,8 +333,8 @@ collision_layer = 2
 health_component = NodePath("../../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerMoveComponent/HurtBoxComponent" unique_id=1980717478]
+position = Vector2(0, -86)
 shape = SubResource("RectangleShape2D_tkdyf")
-debug_color = Color(1, 1, 0, 0.41960785)
 
 [node name="StateDebug" type="Label" parent="PlayerMoveComponent" unique_id=1904626498]
 offset_left = -72.0
@@ -358,12 +356,12 @@ position = Vector2(590, -50)
 collision_mask = 2
 monitoring = false
 script = ExtResource("15_8ietw")
+test_damage = ExtResource("5_1mxid")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerVisual/HitBoxComponent" unique_id=1431846814]
 position = Vector2(0, -162.49997)
 scale = Vector2(0.9999995, 0.9999995)
 shape = SubResource("RectangleShape2D_5rt57")
-debug_color = Color(0.99607843, 0, 0, 0.41960785)
 
 [node name="PlayerAnimations" type="AnimationPlayer" parent="." unique_id=1181832516]
 libraries/ = SubResource("AnimationLibrary_y42te")

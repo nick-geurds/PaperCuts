@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b2ihs1atsc2f1"]
 
-[ext_resource type="Script" uid="uid://df7d8y21pkrn0" path="res://Scripts/Player/hitbox_component.gd" id="1_6ygxj"]
+[ext_resource type="Script" uid="uid://df7d8y21pkrn0" path="res://Scripts/Player/hurtbox_component.gd" id="1_6ygxj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y42te"]
 

@@ -52,6 +52,7 @@ theme = ExtResource("2_udd30")
 metadata/_edit_use_anchors_ = true
 
 [node name="SlotArea2D" type="Area2D" parent="." unique_id=911639954]
+collision_mask = 2
 
 [node name="SlotAreaCollisionShape" type="CollisionShape2D" parent="SlotArea2D" unique_id=1224555866]
 position = Vector2(0, 21)

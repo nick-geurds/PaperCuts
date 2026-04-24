@@ -96,12 +96,12 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("HitBoxComponent:monitoring")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.36666667),
+"times": PackedFloat32Array(0, 0.06666667, 0.10000001),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -122,7 +122,7 @@ animation_player = NodePath("AnimationPlayer")
 animation_name = "RockSpikes"
 
 [node name="SpikeOrigin" type="Node2D" parent="." unique_id=983304632]
-position = Vector2(6.9999995, 67)
+position = Vector2(6.9999995, 7.6293945e-06)
 scale = Vector2(0.175, 1e-05)
 
 [node name="Spike_1" type="Sprite2D" parent="SpikeOrigin" unique_id=393184743]
@@ -132,7 +132,7 @@ region_enabled = true
 region_rect = Rect2(758, 19, 566, 1005)
 
 [node name="SpikeOrigin_2" type="Node2D" parent="." unique_id=874028652]
-position = Vector2(22.000004, 66.99999)
+position = Vector2(22.000004, 0)
 scale = Vector2(0.175, 1e-05)
 
 [node name="Spike_2" type="Sprite2D" parent="SpikeOrigin_2" unique_id=1579552635]
@@ -142,7 +142,6 @@ region_enabled = true
 region_rect = Rect2(1383, 453, 517, 571)
 
 [node name="SpikeOrigin_3" type="Node2D" parent="." unique_id=1581865630]
-position = Vector2(0, 66.99999)
 scale = Vector2(0.175, 1e-05)
 
 [node name="Spike_3" type="Sprite2D" parent="SpikeOrigin_3" unique_id=705089071]
@@ -161,6 +160,7 @@ script = ExtResource("3_cles2")
 metadata/_custom_type_script = "uid://dyjjgb6m00cr0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent" unique_id=1454335600]
+position = Vector2(0, -60)
 shape = SubResource("RectangleShape2D_y4v7x")
 debug_color = Color(1, 0, 0, 0.41960785)
 

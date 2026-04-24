@@ -32,7 +32,7 @@ slot_border_color = Color(1, 0, 0, 1)
 [node name="SlotBaseSprite" type="Sprite2D" parent="." unique_id=1734961925]
 self_modulate = Color(0.32024416, 0.32024416, 0.32024413, 1)
 z_index = 10
-position = Vector2(0, 70)
+position = Vector2(0, 7)
 texture = ExtResource("1_xrklt")
 region_enabled = true
 region_rect = Rect2(130, 0, 120, 14)
@@ -55,7 +55,7 @@ metadata/_edit_use_anchors_ = true
 collision_mask = 2
 
 [node name="SlotAreaCollisionShape" type="CollisionShape2D" parent="SlotArea2D" unique_id=1224555866]
-position = Vector2(0, 21)
+position = Vector2(0, -45)
 shape = SubResource("RectangleShape2D_xrklt")
 
 [connection signal="area_entered" from="SlotArea2D" to="SlotStateMachine/Free" method="_on_slot_area_2d_area_entered"]

@@ -24,6 +24,7 @@ slot_amount = 13
 [node name="Player" parent="." unique_id=1312596246 instance=ExtResource("2_nsrwf")]
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=755047547]
+position = Vector2(0, -178)
 limit_smoothed = true
 script = ExtResource("5_tkdyf")
 camera_padding_width = 25.0
@@ -33,7 +34,6 @@ animation_time = 0.8
 [node name="TestDummy" type="Node" parent="." unique_id=1489461818]
 
 [node name="DummyLocationHolder" type="Node2D" parent="TestDummy" unique_id=1946731512]
-position = Vector2(0, 61)
 
 [node name="DummyVisual" type="Sprite2D" parent="TestDummy/DummyLocationHolder" unique_id=15913188]
 position = Vector2(0, -104.99999)

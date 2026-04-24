@@ -1,8 +1,12 @@
 extends Area2D
-class_name HitBox
+class_name  HitBoxComponent
 
-@export var health_component : HealthComponent
+var damage : AttackData
 
-func Damage(attack : Attack):
-	if health_component:
-		health_component.TakeDamage(attack)
+func _on_area_entered(area: Area2D) -> void:
+	if not area.is_in_group("hurtbox"):
+		return
+	
+	var hitbox = area as HurtBoxComponent
+	if hitbox:
+		hitbox.Damage(damage)

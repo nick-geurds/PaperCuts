@@ -8,7 +8,7 @@ signal Transitioned(state, new_state_name, data)
 func Enter(data = null):
 	pass
 
-func Exit():
+func Exit(data = null):
 	pass
 	
 func Update(delta : float):
@@ -17,5 +17,5 @@ func Update(delta : float):
 func Physics_Update(delta : float):
 	pass
 
-func doAttackInput(new_attack_name: String):
+func onAttackInput(attack_name: String):
 	pass

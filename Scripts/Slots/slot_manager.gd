@@ -3,7 +3,6 @@ class_name SlotManager
 
 signal onTotalWidthSet(target_width : float)
 
-@export var padding_per_slot : float
 @export var slot_amount : int
 
 @export var slot_index : Array = []
@@ -13,6 +12,8 @@ var scene_camera : Camera2D
 
 var total_slots_width : float
 var startpos_offset : float
+
+var slot_width : float
 
 func _ready() -> void:
 	slot_scene = preload("res://Scenes/Objects/Slot.tscn")
@@ -27,14 +28,15 @@ func Setup_Slots():
 		slot_index.append(slot)
 		
 		var slot_script = slot as SlotBase
-		var slot_width = slot_script.slot_width
+		slot_width = slot_script.slot_width
+		
 		
 		if i == 0:
-			total_slots_width = (slot_amount - 1) * (slot_width + padding_per_slot)
+			total_slots_width = (slot_amount - 1) * slot_width
 			startpos_offset = total_slots_width / 2
 			onTotalWidthSet.emit(total_slots_width)
 		
-		var  startpos_x = i * (slot_width + padding_per_slot) - startpos_offset
+		var  startpos_x = i * slot_width - startpos_offset
 		
 		slot.global_position = Vector2(startpos_x,0)
 

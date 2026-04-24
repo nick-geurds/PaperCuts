@@ -4,10 +4,21 @@ class_name SlotDataTransform
 signal checkedSlotState (observer_name : String, isInRange : bool, isFree : bool, index : int)
 signal setPositionSignal(observer_name : String, current_slot_index : int,slot_position : Vector2)
 
-@onready var slot_manager : SlotManager = get_tree().root.get_node("Main").get_node("SlotManager")
+@onready var slot_manager : SlotManager = get_tree().current_scene.get_node("SlotManager") #root.get_node("Main")
+
+var slot_width : float
 
 var current_player_postion_index : int
 var last_player_direction
+
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
+func _ready() -> void:
+	await slot_manager.slot_width
+	
+	slot_width = slot_manager.slot_width
+#-----------------------------------------------------------------
+#-----------------------------------------------------------------
 
 func updatePlayerPositionIndex(slot_index : int, player_direction : int):
 	current_player_postion_index = slot_index

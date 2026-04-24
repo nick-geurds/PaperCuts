@@ -8,20 +8,25 @@ signal attack_finished
 @export var slot_data : SlotDataTransform
 @export var object_to_spawn_scene : PackedScene
 
+var current_damage : AttackData
+
 func Start():
 	animation_player.play(animation_name)
 	animation_player.animation_finished.connect(onAttackedFinished)
 
 func spawn_at_slot(index : int):
-	var next_slot = slot_data.getNextSlotIndex(index)
-	if not slot_data.CheckIfInRange(next_slot):
-		return
-	
-	var position = slot_data.getPosition(next_slot)
 	var object = object_to_spawn_scene.instantiate()
-	object.Start()
+	object.global_position.x = $"../PlayerMoveComponent".global_position.x + ((slot_data.slot_width * slot_data.last_player_direction) * index)
+	object.global_position.y = 0
+	
 	get_tree().current_scene.add_child(object)
-	object.global_position = position
+	
+	var hitbox = object.find_child("HitBoxComponent") as HitBoxComponent
+	
+	if hitbox:
+		hitbox.damage = current_damage
+		
+	object.Start()
 
-func onAttackedFinished():
+func onAttackedFinished(_anim_name: StringName):
 	attack_finished.emit()

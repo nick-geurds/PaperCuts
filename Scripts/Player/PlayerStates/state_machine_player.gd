@@ -3,6 +3,7 @@ class_name PlayerStateMachine
 
 @export var initial_state : PlayerState
 @export var animation_tree : AnimationTree
+@export var animation_player : AnimationPlayer
 
 @export var state_debug : Label
 

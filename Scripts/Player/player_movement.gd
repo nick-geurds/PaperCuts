@@ -6,6 +6,8 @@ signal onPlayerPositionChanged(current_index : int, last_direction : int)
 signal checkIfCanMove(ObserverName : String, index : int)
 signal getPosition(ObserverName : String, index : int)
 
+signal setDirection(isFacingRight : bool)
+
 @export var player_state_machine : PlayerStateMachine
 @export var moving_state : State
 @export var slot_data : SlotDataTransform
@@ -30,6 +32,8 @@ func _ready() -> void:
 	onPlayerPositionChanged.connect(slot_data.updatePlayerPositionIndex)
 	
 	onPlayerPositionChanged.emit(currentIndex, lastDirection)
+	
+	setDirection.emit(false)
 	
 	print("state machine = " + str(player_state_machine))
 	

@@ -11,4 +11,7 @@ func Enter():
 	SetColor()
 
 func _on_slot_area_2d_area_entered(area: Area2D) -> void:
+	if not area.is_in_group("hurtbox"):
+		return
+		
 	Transitioned.emit(self, "Occupied")

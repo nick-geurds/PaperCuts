@@ -11,5 +11,5 @@ func Start():
 	animation_player.play(animation_name)
 	animation_player.animation_finished.connect(onFinished)
 	
-func onFinished(anim_name : StringName):
+func onFinished(_anim_name : StringName):
 	queue_free()

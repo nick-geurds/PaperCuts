@@ -9,3 +9,6 @@ func Enter(data = null):
 
 func onAttackInput(attack_name: String):
 	Transitioned.emit(self, "Attacking", attack_name) 
+
+func onParryInput():
+	Transitioned.emit(self, "Parrying")

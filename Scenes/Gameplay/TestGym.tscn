@@ -44,10 +44,11 @@ texture = ExtResource("4_tkdyf")
 script = ExtResource("5_rjryc")
 metadata/_custom_type_script = "uid://4la85des5n3o"
 
-[node name="HurtBox" type="Area2D" parent="TestDummy/DummyLocationHolder" unique_id=1425322191 node_paths=PackedStringArray("health_component") groups=["hurtbox"]]
+[node name="HurtBox" type="Area2D" parent="TestDummy/DummyLocationHolder" unique_id=1425322191 node_paths=PackedStringArray("health_component", "collision_shape") groups=["hurtbox"]]
 collision_layer = 2
 script = ExtResource("6_671q2")
 health_component = NodePath("../HealthComponent")
+collision_shape = NodePath("CollisionShape2D")
 metadata/_custom_type_script = "uid://df7d8y21pkrn0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TestDummy/DummyLocationHolder/HurtBox" unique_id=1919774644]

@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://b6og30hpu1itl" path="res://Scripts/Player/entitie_visual_follower.gd" id="6_0b04c"]
 [ext_resource type="Resource" uid="uid://dhqx0mfwx883s" path="res://Scripts/Attacks/AttackResources/heavy_attack_hamer.tres" id="6_h2jbs"]
 [ext_resource type="Script" uid="uid://npndr3bxjcjc" path="res://Scripts/Attacks/SpawnAttackHandler.gd" id="8_h2jbs"]
+[ext_resource type="Script" uid="uid://bhegkdi84qe7o" path="res://Scenes/Objects/player_parrying_state.gd" id="8_u2cyj"]
 [ext_resource type="PackedScene" uid="uid://brabd2vq8rfms" path="res://Scenes/attacks/RockSpikeScene.tscn" id="9_ea56u"]
 [ext_resource type="Texture2D" uid="uid://b66fv0l1jc8jh" path="res://Art/TestLightAttack.png" id="11_0b04c"]
 [ext_resource type="Script" uid="uid://c36rriy8g83ql" path="res://Scripts/Player/melee_hitbox_position_setter.gd" id="13_5rt57"]
@@ -280,6 +281,8 @@ graph_offset = Vector2(-5, 34)
 script = ExtResource("1_5uqce")
 player_id = 0
 
+[node name="ParryComponent" type="Node" parent="." unique_id=1661728965]
+
 [node name="HealthComponent" type="Node" parent="." unique_id=1321914618]
 script = ExtResource("17_5rt57")
 metadata/_custom_type_script = "uid://4la85des5n3o"
@@ -311,6 +314,16 @@ metadata/_custom_type_script = "uid://bu3lgmhj8re6j"
 wait_time = 0.5
 one_shot = true
 
+[node name="Parrying" type="Node" parent="PlayerStateMachine" unique_id=893232757 node_paths=PackedStringArray("player_hurtbox", "parry_window")]
+script = ExtResource("8_u2cyj")
+player_hurtbox = NodePath("../../PlayerMoveComponent/HurtBoxComponent")
+parry_window = NodePath("Parry_window")
+can_move = true
+
+[node name="Parry_window" type="Timer" parent="PlayerStateMachine/Parrying" unique_id=2137683116]
+wait_time = 0.2
+one_shot = true
+
 [node name="Slot_index_data" type="Node" parent="." unique_id=565157714]
 script = ExtResource("5_6odyb")
 
@@ -331,9 +344,10 @@ player_state_machine = NodePath("../PlayerStateMachine")
 moving_state = NodePath("../PlayerStateMachine/Moving")
 slot_data = NodePath("../Slot_index_data")
 
-[node name="HurtBoxComponent" parent="PlayerMoveComponent" unique_id=1197980968 node_paths=PackedStringArray("health_component") groups=["hurtbox"] instance=ExtResource("4_2i876")]
+[node name="HurtBoxComponent" parent="PlayerMoveComponent" unique_id=1197980968 node_paths=PackedStringArray("health_component", "collision_shape") groups=["hurtbox"] instance=ExtResource("4_2i876")]
 collision_layer = 2
 health_component = NodePath("../../HealthComponent")
+collision_shape = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerMoveComponent/HurtBoxComponent" unique_id=1980717478]
 position = Vector2(0, -86)
@@ -379,14 +393,17 @@ anim_player = NodePath("../PlayerAnimations")
 parameters/conditions/is_attacking = false
 parameters/conditions/is_moving = false
 
-[connection signal="onAttack" from="." to="PlayerStateMachine/Moving" method="onAttackInput"]
+[connection signal="onAttackInput" from="." to="PlayerStateMachine/Moving" method="onAttackInput"]
 [connection signal="onMove" from="." to="PlayerMoveComponent" method="_on_player_on_move"]
+[connection signal="onMoveInput" from="." to="PlayerStateMachine/Parrying" method="onMoveInput"]
+[connection signal="onParryInput" from="." to="PlayerStateMachine/Moving" method="onParryInput"]
+[connection signal="onParryStateChange" from="PlayerStateMachine/Parrying" to="PlayerMoveComponent/HurtBoxComponent" method="setParryState"]
 [connection signal="checkedSlotState" from="Slot_index_data" to="PlayerMoveComponent" method="CanMove"]
 [connection signal="setPositionSignal" from="Slot_index_data" to="PlayerMoveComponent" method="Move_2"]
 [connection signal="checkIfCanMove" from="PlayerMoveComponent" to="Slot_index_data" method="CheckSlotState"]
 [connection signal="getPosition" from="PlayerMoveComponent" to="Slot_index_data" method="setPosition"]
-[connection signal="onDirectionChange" from="PlayerMoveComponent" to="PlayerVisual" method="_on_player_holder_on_direction_change"]
 [connection signal="onDirectionChange" from="PlayerMoveComponent" to="PlayerMoveComponent/HitboxPositionSetter" method="setHitboxPosition"]
+[connection signal="onDirectionChange" from="PlayerMoveComponent" to="PlayerVisual" method="_on_player_holder_on_direction_change"]
 [connection signal="onPlayerPositionChanged" from="PlayerMoveComponent" to="Slot_index_data" method="updatePlayerPositionIndex"]
 [connection signal="setDirection" from="PlayerMoveComponent" to="PlayerMoveComponent/HitboxPositionSetter" method="setHitboxPosition"]
 [connection signal="area_entered" from="PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent" to="PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent" method="_on_area_entered"]

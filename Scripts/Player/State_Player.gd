@@ -1,6 +1,7 @@
 extends Node
 class_name PlayerState
 
+@export var player_state_machine : PlayerStateMachine
 @export var can_move : bool
 
 signal Transitioned(state, new_state_name, data)

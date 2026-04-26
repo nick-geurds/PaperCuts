@@ -2,6 +2,7 @@ extends Node
 class_name PlayerInput
 
 @export var player_id = 1
+@export var start_slot : int = 1
 
 signal onMove(direction : float)
 signal onMoveInput()

@@ -264,9 +264,6 @@ animation = &"Light_Attack"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h2jbs"]
 animation = &"Null_state"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uaqrc"]
-animation = &"Parry"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ea56u"]
 break_loop_at_end = true
 
@@ -282,14 +279,6 @@ advance_condition = &"is_attacking"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1mxid"]
 advance_condition = &"is_moving"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lq1qi"]
-advance_mode = 2
-advance_condition = &"is_parrying"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_27tnr"]
-advance_mode = 2
-advance_condition = &"is_moving"
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_u2cyj"]
 states/End/position = Vector2(675.52, 107.2)
 states/Heavy_Attack/node = SubResource("AnimationNodeAnimation_0b04c")
@@ -298,11 +287,9 @@ states/Light_Attack/node = SubResource("AnimationNodeAnimation_1mxid")
 states/Light_Attack/position = Vector2(417.2, 193.49121)
 states/Null_state/node = SubResource("AnimationNodeAnimation_h2jbs")
 states/Null_state/position = Vector2(236.40002, 98.97215)
-states/Parry/node = SubResource("AnimationNodeAnimation_uaqrc")
-states/Parry/position = Vector2(388.39996, 13.199997)
 states/Start/position = Vector2(116.799995, 100.5632)
-transitions = ["Start", "Null_state", SubResource("AnimationNodeStateMachineTransition_ea56u"), "Null_state", "Light_Attack", SubResource("AnimationNodeStateMachineTransition_8ietw"), "Light_Attack", "Null_state", SubResource("AnimationNodeStateMachineTransition_5rt57"), "Null_state", "Heavy_Attack", SubResource("AnimationNodeStateMachineTransition_6odyb"), "Heavy_Attack", "Null_state", SubResource("AnimationNodeStateMachineTransition_1mxid"), "Null_state", "Parry", SubResource("AnimationNodeStateMachineTransition_lq1qi"), "Parry", "Null_state", SubResource("AnimationNodeStateMachineTransition_27tnr")]
-graph_offset = Vector2(101, 13)
+transitions = ["Start", "Null_state", SubResource("AnimationNodeStateMachineTransition_ea56u"), "Null_state", "Light_Attack", SubResource("AnimationNodeStateMachineTransition_8ietw"), "Light_Attack", "Null_state", SubResource("AnimationNodeStateMachineTransition_5rt57"), "Null_state", "Heavy_Attack", SubResource("AnimationNodeStateMachineTransition_6odyb"), "Heavy_Attack", "Null_state", SubResource("AnimationNodeStateMachineTransition_1mxid")]
+graph_offset = Vector2(-5, 34)
 
 [node name="Player" type="Node" unique_id=1312596246]
 script = ExtResource("1_5uqce")
@@ -328,13 +315,15 @@ player_state_machine = NodePath("..")
 can_move = true
 metadata/_custom_type_script = "uid://dhhcukt1be6h0"
 
-[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("melee_attack_hitbox", "spawn_attack_handler", "player_state_machine")]
+[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("player_state_machine", "melee_attack_hitbox", "spawn_attack_handler", "player_state_machine")]
 script = ExtResource("4_0b04c")
+player_state_machine = NodePath("..")
 base_attack = ExtResource("5_1mxid")
 heavy_attack = ExtResource("6_h2jbs")
 melee_attack_hitbox = NodePath("../../PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent")
 spawn_attack_handler = NodePath("../../SpikeSpawnHandler")
 player_state_machine = NodePath("..")
+can_move = null
 metadata/_custom_type_script = "uid://bu3lgmhj8re6j"
 
 [node name="AttackTimer" type="Timer" parent="PlayerStateMachine/Attacking" unique_id=1724971335]
@@ -349,8 +338,9 @@ parry_anim_name = "Parry"
 player_state_machine = NodePath("..")
 can_move = true
 
-[node name="Parry_window" type="Timer" parent="PlayerStateMachine/Parrying" unique_id=1753378528]
+[node name="Parry_window" type="Timer" parent="PlayerStateMachine/Parrying" unique_id=2137683116]
 wait_time = 0.2
+one_shot = true
 
 [node name="SpikeSpawnHandler" type="Node" parent="." unique_id=55490018 node_paths=PackedStringArray("animation_player", "player_movement")]
 script = ExtResource("8_h2jbs")
@@ -358,6 +348,7 @@ animation_player = NodePath("SpikeSpawn")
 animation_name = "SpawnSpikes"
 object_to_spawn_scene = ExtResource("9_ea56u")
 player_movement = NodePath("../PlayerMoveComponent")
+slot_width = null
 metadata/_custom_type_script = "uid://npndr3bxjcjc"
 
 [node name="SpikeSpawn" type="AnimationPlayer" parent="SpikeSpawnHandler" unique_id=1471742064]
@@ -416,7 +407,6 @@ tree_root = SubResource("AnimationNodeStateMachine_u2cyj")
 anim_player = NodePath("../PlayerAnimations")
 parameters/conditions/is_attacking = false
 parameters/conditions/is_moving = false
-parameters/conditions/is_parrying = false
 
 [node name="SlotBase" parent="." unique_id=286476743 instance=ExtResource("21_uaqrc")]
 
@@ -430,4 +420,3 @@ parameters/conditions/is_parrying = false
 [connection signal="setDirection" from="PlayerMoveComponent" to="PlayerMoveComponent/HitboxPositionSetter" method="setHitboxPosition"]
 [connection signal="area_entered" from="PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent" to="PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent" method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/Attacking" method="_on_animation_tree_animation_finished"]
-[connection signal="animation_finished" from="AnimationTree" to="PlayerStateMachine/Parrying" method="_on_animation_tree_animation_finished"]

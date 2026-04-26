@@ -5,12 +5,13 @@ signal onParryStateChange(current_state : bool)
 
 @export var player_hurtbox : HurtBoxComponent
 @export var parry_window : Timer
+@export var parry_anim_name : String
 
 var isParrying : bool = false
 var wait_time : float
 
 func Enter(data = null):
-	print("enterParryState")
+	player_state_machine.travel(parry_anim_name)
 	wait_time = parry_window.wait_time
 	if isParrying:
 		return
@@ -23,14 +24,15 @@ func setParryState():
 	parry_window.start()
 
 func Exit(data = null):
-	if parry_window.timeout.connect(onParryFinished):
+	isParrying = false
+	if parry_window.timeout.is_connected(onParryFinished):
 		parry_window.timeout.disconnect(onParryFinished)
 	parry_window.wait_time = wait_time
-	isParrying = false
 
 func onParryFinished():
 	onParryStateChange.emit(false)
 	Transitioned.emit(self, "Moving")
 
 func onMoveInput():
+	onParryStateChange.emit(false)
 	Transitioned.emit(self, "Moving")

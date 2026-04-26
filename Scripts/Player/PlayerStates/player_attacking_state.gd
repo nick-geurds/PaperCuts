@@ -1,12 +1,10 @@
 extends PlayerState
 class_name PlayerAttackingState
 
-@export var player_state_machine : PlayerStateMachine
 @export var base_attack : AttackData
 @export var heavy_attack : AttackData
 
 @export var melee_attack_hitbox : HitBoxComponent
-
 @export var spawn_attack_handler : SpawnAttackHandler
 
 var is_attacking : bool = false
@@ -46,6 +44,8 @@ func doAttack(attack_data : AttackData):
 	player_state_machine.travel(attack_data.animation_name)
 	
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if not is_attacking:
+		return
 	is_attacking = false
 	onAttackFinished()
 	

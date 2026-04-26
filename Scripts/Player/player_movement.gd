@@ -15,9 +15,11 @@ signal setDirection(isFacingRight : bool)
 var lastDirection : float
 var currentIndex : int
 
-var debug_test : int = 0
+var player_name : String
 
 func _ready() -> void:
+	player_name = get_parent().name
+	print("player_name: ", player_name)
 	var player_id = get_parent() as PlayerInput
 	#var startSlot : int = player_id.player_id
 	var startSlot = player_id.start_slot #voor te testen
@@ -30,7 +32,7 @@ func _ready() -> void:
 	onPlayerPositionChanged.connect(slot_data.updatePlayerPositionIndex)
 	
 	setDirection.emit(false)
-	onPlayerPositionChanged.emit(name, currentIndex, lastDirection)
+	onPlayerPositionChanged.emit(player_name, currentIndex, lastDirection)
 
 func _on_player_on_move(direction: float) -> void:
 	
@@ -46,41 +48,27 @@ func _on_player_on_move(direction: float) -> void:
 		CheckIfCanMove()
 	
 	lastDirection = direction
-	onPlayerPositionChanged.emit(name ,currentIndex, lastDirection)
+	onPlayerPositionChanged.emit(player_name ,currentIndex, lastDirection)
 
 func CheckIfCanMove():
-	#var new_index = currentIndex + direction
-	#var new_index = slot_data.getNextSlotIndex(name ,1)
-	#checkIfCanMove.emit(name, new_index)
-	slot_data.reqeustMove(name, 1)
+	slot_data.reqeustMove(player_name, 1)
 	
 
 func CanMove(observer_name: String, isInRange: bool, isFree: bool, index: int):
-	#if observer_name != name:
-		#return
-	#if not isInRange:
-		#return
-	#if isFree:
-		#getPosition.emit(name, index)
-	#else:
-		#var second_index = slot_data.getNextSlotIndex(name ,2)  
-		#if not slot_data.CheckIfInRange(second_index):
-			#return
-		#if slot_data.CheckIfSlotIsFree(second_index):
-			#getPosition.emit(name, second_index)
-	
-	if observer_name != name:
+	if observer_name != player_name:
 		return
 	if not isInRange:
 		return
 	if isFree:
-		slot_data.setPosition(name, index)
+		slot_data.setPosition(player_name, index)
 	else:
-		slot_data.reqeustSecondMove(name, 2)
+		var next = slot_data.getNextSlotIndex(player_name, 2)
+		if slot_data.CheckIfInRange(next) and slot_data.CheckIfSlotIsFree(next):
+			slot_data.setPosition(player_name, next)
 
 func Move(observer_name : String, current_slot_index : int, slot_position : Vector2):
-	if observer_name != name:
+	if observer_name != player_name:
 		return
 	currentIndex = current_slot_index
 	global_position = slot_position
-	onPlayerPositionChanged.emit(name, currentIndex, lastDirection)
+	onPlayerPositionChanged.emit(player_name, currentIndex, lastDirection)

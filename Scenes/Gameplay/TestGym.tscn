@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://cbhpe3l5o6qkj"]
 
+[ext_resource type="Script" uid="uid://vape1aw1pny3" path="res://Scripts/Test/player_instanciation.gd" id="1_671q2"]
 [ext_resource type="PackedScene" uid="uid://b2pgvjpug0vjl" path="res://Scenes/Objects/player.tscn" id="2_nsrwf"]
 [ext_resource type="Texture2D" uid="uid://y0nk2mhqhkfa" path="res://Art/TestSprite.png" id="4_tkdyf"]
 [ext_resource type="Script" uid="uid://cilanbjpk0bun" path="res://Scripts/Slots/slot_manager.gd" id="5_pmii7"]
 [ext_resource type="Script" uid="uid://4la85des5n3o" path="res://Scripts/Player/health_component.gd" id="5_rjryc"]
-[ext_resource type="Script" uid="uid://ko7tv5l7f8r8" path="res://Scripts/Camera/camera_setter.gd" id="5_tkdyf"]
+[ext_resource type="Script" uid="uid://ko7tv5l7f8r8" path="res://Scripts/Camera/Camera_Setter.gd" id="5_tkdyf"]
 [ext_resource type="Script" uid="uid://df7d8y21pkrn0" path="res://Scripts/Player/hurtbox_component.gd" id="6_671q2"]
 [ext_resource type="Script" uid="uid://cnl05wv738gtn" path="res://Scripts/Player/slot_index_data_player.gd" id="7_rjryc"]
 
@@ -16,7 +17,10 @@ metadata/_snap_count = 2
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6a6pl"]
 size = Vector2(96, 171)
 
-[node name="Main" type="Node2D" unique_id=648963873]
+[node name="Main" type="Node" unique_id=260285655 node_paths=PackedStringArray("slot_manager")]
+script = ExtResource("1_671q2")
+player_scene = ExtResource("2_nsrwf")
+slot_manager = NodePath("SlotManager")
 
 [node name="SlotManager" type="Node" parent="." unique_id=1694321827]
 script = ExtResource("5_pmii7")
@@ -25,9 +29,6 @@ slot_amount = 9
 [node name="Slot_Data" type="Node" parent="." unique_id=2009676734 node_paths=PackedStringArray("slot_manager")]
 script = ExtResource("7_rjryc")
 slot_manager = NodePath("../SlotManager")
-
-[node name="Player" parent="." unique_id=1312596246 instance=ExtResource("2_nsrwf")]
-start_slot = 0
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=755047547]
 position = Vector2(0, -178)
@@ -63,6 +64,3 @@ shape = SubResource("RectangleShape2D_6a6pl")
 debug_color = Color(1, 1, 0, 0.41960785)
 
 [connection signal="onTotalWidthSet" from="SlotManager" to="MainCamera" method="_on_slot_manager_on_total_width_set"]
-[connection signal="onAttackInput" from="Player" to="Player/PlayerStateMachine/Moving" method="onAttackInput"]
-[connection signal="onMoveInput" from="Player" to="Player/PlayerStateMachine/Parrying" method="onMoveInput"]
-[connection signal="onParryInput" from="Player" to="Player/PlayerStateMachine/Moving" method="onParryInput"]

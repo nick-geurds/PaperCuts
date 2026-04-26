@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://4la85des5n3o" path="res://Scripts/Player/health_component.gd" id="5_rjryc"]
 [ext_resource type="Script" uid="uid://ko7tv5l7f8r8" path="res://Scripts/Camera/camera_setter.gd" id="5_tkdyf"]
 [ext_resource type="Script" uid="uid://df7d8y21pkrn0" path="res://Scripts/Player/hurtbox_component.gd" id="6_671q2"]
+[ext_resource type="Script" uid="uid://cnl05wv738gtn" path="res://Scripts/Player/slot_index_data_player.gd" id="7_rjryc"]
 
 [sub_resource type="Curve" id="Curve_pmii7"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5018382, 0.49888146), 2.434004, 2.434004, 0, 0, Vector2(1, 1), 0.07686747, 0.0, 0, 0]
@@ -19,9 +20,14 @@ size = Vector2(96, 171)
 
 [node name="SlotManager" type="Node" parent="." unique_id=1694321827]
 script = ExtResource("5_pmii7")
-slot_amount = 13
+slot_amount = 9
+
+[node name="Slot_Data" type="Node" parent="." unique_id=2009676734 node_paths=PackedStringArray("slot_manager")]
+script = ExtResource("7_rjryc")
+slot_manager = NodePath("../SlotManager")
 
 [node name="Player" parent="." unique_id=1312596246 instance=ExtResource("2_nsrwf")]
+start_slot = 0
 
 [node name="MainCamera" type="Camera2D" parent="." unique_id=755047547]
 position = Vector2(0, -178)
@@ -44,10 +50,11 @@ texture = ExtResource("4_tkdyf")
 script = ExtResource("5_rjryc")
 metadata/_custom_type_script = "uid://4la85des5n3o"
 
-[node name="HurtBox" type="Area2D" parent="TestDummy/DummyLocationHolder" unique_id=1425322191 node_paths=PackedStringArray("health_component") groups=["hurtbox"]]
+[node name="HurtBox" type="Area2D" parent="TestDummy/DummyLocationHolder" unique_id=1425322191 node_paths=PackedStringArray("health_component", "collision_shape") groups=["hurtbox"]]
 collision_layer = 2
 script = ExtResource("6_671q2")
 health_component = NodePath("../HealthComponent")
+collision_shape = NodePath("CollisionShape2D")
 metadata/_custom_type_script = "uid://df7d8y21pkrn0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TestDummy/DummyLocationHolder/HurtBox" unique_id=1919774644]
@@ -56,3 +63,6 @@ shape = SubResource("RectangleShape2D_6a6pl")
 debug_color = Color(1, 1, 0, 0.41960785)
 
 [connection signal="onTotalWidthSet" from="SlotManager" to="MainCamera" method="_on_slot_manager_on_total_width_set"]
+[connection signal="onAttackInput" from="Player" to="Player/PlayerStateMachine/Moving" method="onAttackInput"]
+[connection signal="onMoveInput" from="Player" to="Player/PlayerStateMachine/Parrying" method="onMoveInput"]
+[connection signal="onParryInput" from="Player" to="Player/PlayerStateMachine/Moving" method="onParryInput"]

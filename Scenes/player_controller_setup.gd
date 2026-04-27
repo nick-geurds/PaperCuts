@@ -10,14 +10,21 @@ var pending_devices : Array = []
 
 var axis_used : Dictionary = {}
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton:
+		print("setup ziet button: ", event.device, " button: ", event.button_index)
+	if event is InputEventJoypadMotion:
+		print("setup ziet motion: ", event.device, " axis: ", event.axis, " value: ", event.axis_value)
+		
 func _input(event: InputEvent) -> void:
+	
 	var device_id : int = getDeviceId(event)
 	if device_id == -99:
 		return
 		
 	var is_left = false
 	var is_right = false
-
+	
 	if event is InputEventKey:
 		is_left = event.is_action_pressed("move_left")
 		is_right =	event.is_action_pressed("move_right")
@@ -25,6 +32,7 @@ func _input(event: InputEvent) -> void:
 		is_left = event.button_index == JOY_BUTTON_DPAD_LEFT
 		is_right = event.button_index == JOY_BUTTON_DPAD_RIGHT
 	elif event is InputEventJoypadMotion:
+		print(event.axis_value)
 		if event.axis == JOY_AXIS_LEFT_X:
 			if abs(event.axis_value) < 0.2:
 				axis_used[event.device] = false
@@ -58,6 +66,8 @@ func _input(event: InputEvent) -> void:
 
 func getDeviceId(event: InputEvent) -> int:
 	if event is InputEventKey and event.pressed and not event.echo:
+		return -1
+	if event is InputEventMouseButton and event.pressed:
 		return -1
 	if event is InputEventJoypadButton and event.pressed:
 		return event.device

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_p2aag")
 animation_name = "Light_Attack"
+smear_animation_name = "light_attack_smear"
 damage_amount = 1.0
 attack_range = 1
 metadata/_custom_type_script = "uid://coq6tt0pnc8h3"

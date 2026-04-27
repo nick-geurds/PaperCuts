@@ -21,10 +21,9 @@ func _ready() -> void:
 	player_name = get_parent().name
 	print("player_name: ", player_name)
 	var player_id = get_parent() as PlayerInput
-	#var startSlot : int = player_id.player_id
-	var startSlot = player_id.start_slot #voor te testen
+	var startSlot = player_id.start_slot
 	lastDirection = 1
-	position = slot_data.getStartPosition(startSlot)  # ← via slot_data ipv slot_manager direct
+	position = slot_data.getStartPosition(startSlot)
 	currentIndex = startSlot
 	
 	slot_data.checkedSlotState.connect(CanMove)

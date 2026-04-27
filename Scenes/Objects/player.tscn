@@ -13,14 +13,177 @@
 [ext_resource type="Script" uid="uid://npndr3bxjcjc" path="res://Scripts/Attacks/SpawnAttackHandler.gd" id="8_h2jbs"]
 [ext_resource type="Script" uid="uid://bhegkdi84qe7o" path="res://Scenes/Objects/player_parrying_state.gd" id="8_u2cyj"]
 [ext_resource type="PackedScene" uid="uid://brabd2vq8rfms" path="res://Scenes/attacks/RockSpikeScene.tscn" id="9_ea56u"]
+[ext_resource type="Texture2D" uid="uid://64y3kqjdsrui" path="res://Art/Smear_test_light_attack.png" id="9_lq1qi"]
+[ext_resource type="Texture2D" uid="uid://bx2rdlg7r8x61" path="res://Art/Smear_test_heavy_attack.png" id="10_3274e"]
 [ext_resource type="Script" uid="uid://c36rriy8g83ql" path="res://Scripts/Player/melee_hitbox_position_setter.gd" id="13_5rt57"]
 [ext_resource type="Script" uid="uid://dyjjgb6m00cr0" path="res://Scripts/Player/hitbox_component.gd" id="15_8ietw"]
 [ext_resource type="Script" uid="uid://4la85des5n3o" path="res://Scripts/Player/health_component.gd" id="17_5rt57"]
 [ext_resource type="Texture2D" uid="uid://p2p8eyo2qijl" path="res://Art/new_test_heavy_attack.png" id="17_bp0mo"]
-[ext_resource type="Texture2D" uid="uid://dheghki7isfph" path="res://Art/new_test_light_attack.png" id="19_uaqrc"]
+[ext_resource type="Texture2D" uid="uid://d3ef88c8lt3uv" path="res://Art/new_test_light_attack.png" id="19_uaqrc"]
 [ext_resource type="Texture2D" uid="uid://b8h23dixpmciw" path="res://Art/new_test_Idle.png" id="20_lq1qi"]
 [ext_resource type="Texture2D" uid="uid://b17tnveyhhygp" path="res://Art/new_test_parry.png" id="20_uaqrc"]
 [ext_resource type="PackedScene" uid="uid://2h6ph8veos77" path="res://Scenes/Objects/Slot.tscn" id="21_uaqrc"]
+[ext_resource type="Script" uid="uid://bt5x6as1uv1ih" path="res://Scripts/Player/set_sprite_visibile.gd" id="23_27tnr"]
+
+[sub_resource type="Animation" id="Animation_27tnr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual/SmearSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("19_uaqrc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual/SmearSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual/SmearSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_v7n4v"]
+resource_name = "smear_heavy_attack"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual/SmearSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_3274e")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual/SmearSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual/SmearSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.26666668, 0.33333334, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerVisual/SmearSprite")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"setSpriteVisibility"
+}, {
+"args": [false],
+"method": &"setSpriteVisibility"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_3274e"]
+resource_name = "light_attack_smear"
+length = 0.33333334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerVisual/SmearSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("9_lq1qi")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerVisual/SmearSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerVisual/SmearSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.18, 0.24, 0.299),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerVisual/SmearSprite")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.33333334),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"setSpriteVisibility"
+}, {
+"args": [false],
+"method": &"setSpriteVisibility"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7n4v"]
+_data = {
+&"RESET": SubResource("Animation_27tnr"),
+&"heavy_attack_smear": SubResource("Animation_v7n4v"),
+&"light_attack_smear": SubResource("Animation_3274e")
+}
 
 [sub_resource type="Animation" id="Animation_ea56u"]
 resource_name = "SpawnSpikes"
@@ -32,16 +195,16 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3),
+"times": PackedFloat32Array(0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
-"args": [1],
-"method": &"spawn_at_slot"
-}, {
 "args": [2],
 "method": &"spawn_at_slot"
 }, {
 "args": [3],
+"method": &"spawn_at_slot"
+}, {
+"args": [4],
 "method": &"spawn_at_slot"
 }]
 }
@@ -110,10 +273,36 @@ tracks/3/keys = {
 "method": &"doSpawnAttack"
 }]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerStateMachine/Attacking")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"playSmearAnimaiton"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent:monitoring")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.71, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
 
 [sub_resource type="Animation" id="Animation_h6i5h"]
 resource_name = "Light_Attack"
-length = 0.8
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -136,7 +325,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [5]
+"values": [2]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -145,7 +334,7 @@ tracks/2/path = NodePath("PlayerMoveComponent/HitboxPositionSetter/HitBoxCompone
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.43333334, 0.5),
+"times": PackedFloat32Array(0, 0.1525, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -157,10 +346,24 @@ tracks/3/path = NodePath("PlayerVisual:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerStateMachine/Attacking")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"playSmearAnimaiton"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_0b04c"]
@@ -327,18 +530,23 @@ player_state_machine = NodePath("..")
 can_move = true
 metadata/_custom_type_script = "uid://dhhcukt1be6h0"
 
-[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("melee_attack_hitbox", "spawn_attack_handler", "player_state_machine")]
+[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("melee_attack_hitbox", "spawn_attack_handler", "smear_frame_animation_player", "player_state_machine")]
 script = ExtResource("4_0b04c")
 base_attack = ExtResource("5_1mxid")
 heavy_attack = ExtResource("6_h2jbs")
 melee_attack_hitbox = NodePath("../../PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent")
 spawn_attack_handler = NodePath("../../SpikeSpawnHandler")
+smear_frame_animation_player = NodePath("SmearFramesAttacks")
 player_state_machine = NodePath("..")
 metadata/_custom_type_script = "uid://bu3lgmhj8re6j"
 
 [node name="AttackTimer" type="Timer" parent="PlayerStateMachine/Attacking" unique_id=1724971335]
 wait_time = 0.5
 one_shot = true
+
+[node name="SmearFramesAttacks" type="AnimationPlayer" parent="PlayerStateMachine/Attacking" unique_id=1944017840]
+root_node = NodePath("../../..")
+libraries/ = SubResource("AnimationLibrary_v7n4v")
 
 [node name="Parrying" type="Node" parent="PlayerStateMachine" unique_id=893232757 node_paths=PackedStringArray("player_hurtbox", "parry_window", "player_state_machine")]
 script = ExtResource("8_u2cyj")
@@ -398,13 +606,21 @@ scale = Vector2(0.9999995, 0.9999995)
 shape = SubResource("RectangleShape2D_5rt57")
 debug_color = Color(0.99607843, 0, 0, 0.41960785)
 
-[node name="PlayerVisual" type="Sprite2D" parent="." unique_id=72645833 node_paths=PackedStringArray("object_to_follow")]
+[node name="PlayerVisual" type="Sprite2D" parent="." unique_id=72645833 node_paths=PackedStringArray("object_to_follow", "childSpirte")]
 z_index = 100
 scale = Vector2(0.609, 0.609)
 texture = ExtResource("5_jvxap")
 offset = Vector2(0, -213)
 script = ExtResource("6_0b04c")
 object_to_follow = NodePath("../PlayerMoveComponent")
+childSpirte = NodePath("SmearSprite")
+
+[node name="SmearSprite" type="Sprite2D" parent="PlayerVisual" unique_id=1885429368]
+z_index = 100
+texture = ExtResource("19_uaqrc")
+offset = Vector2(0, -213)
+hframes = 2
+script = ExtResource("23_27tnr")
 
 [node name="PlayerAnimations" type="AnimationPlayer" parent="." unique_id=1181832516]
 libraries/ = SubResource("AnimationLibrary_y42te")

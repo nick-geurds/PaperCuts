@@ -61,7 +61,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_left_released:
 		is_left_held = false
 	
-	if event is InputEventKey or event is InputEventJoypadButton:
+	if event is InputEventKey or event is InputEventMouseButton or event is InputEventJoypadButton:
 		if event.is_action_pressed("base_attack"):
 			onAttackInput.emit("base_attack")
 		if event.is_action_pressed("heavy_attack"):
@@ -71,7 +71,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func isMyDevice(event: InputEvent) -> bool:
 	if assigned_device == -1:
-		return event is InputEventKey
+		return event is InputEventKey or event is InputEventMouseButton or event is InputEventMouseMotion
 	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
 		return event.device == assigned_device
 	return false

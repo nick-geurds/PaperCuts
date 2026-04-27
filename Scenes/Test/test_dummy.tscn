@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bvn46d7475c07"]
+
+[ext_resource type="Texture2D" uid="uid://y0nk2mhqhkfa" path="res://Art/TestSprite.png" id="1_7junf"]
+[ext_resource type="Script" uid="uid://4la85des5n3o" path="res://Scripts/Player/health_component.gd" id="2_w2nht"]
+[ext_resource type="Script" uid="uid://df7d8y21pkrn0" path="res://Scripts/Player/hurtbox_component.gd" id="3_ipyya"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6a6pl"]
+size = Vector2(96, 171)
+
+[node name="TestDummy" type="Node" unique_id=1605803074]
+
+[node name="DummyLocationHolder" type="Node2D" parent="." unique_id=921172952]
+
+[node name="DummyVisual" type="Sprite2D" parent="DummyLocationHolder" unique_id=1452238307]
+position = Vector2(0, -104.99999)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_7junf")
+
+[node name="HealthComponent" type="Node2D" parent="DummyLocationHolder" unique_id=1997169906]
+script = ExtResource("2_w2nht")
+metadata/_custom_type_script = "uid://4la85des5n3o"
+
+[node name="HurtBox" type="Area2D" parent="DummyLocationHolder" unique_id=550644167 node_paths=PackedStringArray("health_component", "collision_shape") groups=["hurtbox"]]
+collision_layer = 2
+script = ExtResource("3_ipyya")
+health_component = NodePath("../HealthComponent")
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://df7d8y21pkrn0"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DummyLocationHolder/HurtBox" unique_id=1626943676]
+position = Vector2(0, -85.5)
+shape = SubResource("RectangleShape2D_6a6pl")
+debug_color = Color(1, 1, 0, 0.41960785)

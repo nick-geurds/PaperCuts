@@ -19,7 +19,7 @@ func Start():
 func spawn_at_slot(index : int):
 	if player_movement != null:
 		var object = object_to_spawn_scene.instantiate()
-		object.global_position.x = player_movement.global_position.x + ((slot_width * player_movement.lastDirection) * index)
+		object.global_position.x = setPosition(index)
 		object.global_position.y = 0
 		
 		get_tree().current_scene.add_child(object)
@@ -30,6 +30,9 @@ func spawn_at_slot(index : int):
 			hitbox.damage = current_damage
 			
 		object.Start()
+
+func setPosition(index : int) -> float:
+	return player_movement.global_position.x + ((slot_width * player_movement.lastDirection) * index)
 
 func onAttackedFinished(_anim_name: StringName):
 	attack_finished.emit()

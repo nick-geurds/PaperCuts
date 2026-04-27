@@ -6,6 +6,9 @@ class_name EntitieVisualFollower
 
 @export var object_to_follow : Node2D
 
+@export var childSpirte : Sprite2D
+
+
 func _physics_process(delta: float) -> void:
 	var target_position = object_to_follow.position
 	position = position.lerp(target_position, delta * follow_speed)
@@ -14,10 +17,10 @@ func _physics_process(delta: float) -> void:
 	rotation_degrees = clamp(distance_to_target_pos_x, -max_rotation, max_rotation)
 	
 
-#flip het karakter (puur visueel) in deze functie
 func _on_player_holder_on_direction_change(isFacingRight: bool) -> void:
 	if isFacingRight:
 		flip_h = true
+		childSpirte.flip_h = true
 	else:
 		flip_h = false
-	
+		childSpirte.flip_h = false

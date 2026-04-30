@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_r0st8")
 animation_name = "Heavy_Attack"
+smear_animation_name = "heavy_attack_smear"
 damage_amount = 1.5
 attack_range = 2
-isComplex = true
 metadata/_custom_type_script = "uid://coq6tt0pnc8h3"

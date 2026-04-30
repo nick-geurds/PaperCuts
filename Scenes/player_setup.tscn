@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://rj3wrf50uf07"]
+
+[ext_resource type="Script" uid="uid://duok5ftbayjqy" path="res://Scenes/player_controller_setup.gd" id="1_t0o5c"]
+[ext_resource type="Script" uid="uid://cqqk1xg2g72hv" path="res://Scripts/UI/player_setup_ui.gd" id="2_p0y6l"]
+
+[node name="PlayerSetup" type="Node" unique_id=293772911]
+script = ExtResource("1_t0o5c")
+
+[node name="PlayerSetupUI" type="CanvasLayer" parent="." unique_id=1414105703 node_paths=PackedStringArray("player_1_label", "player_2_label", "confirm_button")]
+script = ExtResource("2_p0y6l")
+player_1_label = NodePath("VBoxContainer/HBoxContainer/MarginContainer/Panel/MarginContainer/LabelPlayer1")
+player_2_label = NodePath("VBoxContainer/HBoxContainer/MarginContainer2/Panel2/MarginContainer/LabelPlayer2")
+confirm_button = NodePath("VBoxContainer/MarginContainer/ConfirmButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerSetupUI" unique_id=1570085378]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerSetupUI/VBoxContainer" unique_id=1357431021]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer/HBoxContainer" unique_id=1193258652]
+custom_minimum_size = Vector2(250, 350)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer" unique_id=534873236]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer/Panel" unique_id=1798384006]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="LabelPlayer1" type="Label" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer/Panel/MarginContainer" unique_id=1733043437]
+layout_mode = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer/HBoxContainer" unique_id=1629948917]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel3" type="Panel" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer3" unique_id=941392890]
+custom_minimum_size = Vector2(116.27, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer3/Panel3" unique_id=813762909]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer/HBoxContainer" unique_id=1161159028]
+custom_minimum_size = Vector2(250, 350)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel2" type="Panel" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer2" unique_id=643773425]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer2/Panel2" unique_id=2097548426]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="LabelPlayer2" type="Label" parent="PlayerSetupUI/VBoxContainer/HBoxContainer/MarginContainer2/Panel2/MarginContainer" unique_id=127931558]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerSetupUI/VBoxContainer" unique_id=2019022206]
+layout_mode = 2
+theme_override_constants/margin_left = 550
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 550
+theme_override_constants/margin_bottom = 12
+
+[node name="ConfirmButton" type="Button" parent="PlayerSetupUI/VBoxContainer/MarginContainer" unique_id=1297919827]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[connection signal="playersAssigned" from="." to="PlayerSetupUI" method="setConfirmButtonVibility"]
+[connection signal="updatePendingDevices" from="." to="PlayerSetupUI" method="updatePendingUI"]
+[connection signal="updatePlayerSlotUI" from="." to="PlayerSetupUI" method="updateSlotUI"]
+[connection signal="pressed" from="PlayerSetupUI/VBoxContainer/MarginContainer/ConfirmButton" to="." method="confirmAssignedController"]

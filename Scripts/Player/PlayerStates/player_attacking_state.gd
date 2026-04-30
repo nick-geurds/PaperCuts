@@ -7,6 +7,8 @@ class_name PlayerAttackingState
 @export var melee_attack_hitbox : HitBoxComponent
 @export var spawn_attack_handler : SpawnAttackHandler
 
+@export var smear_frame_animation_player : AnimationPlayer
+
 var is_attacking : bool = false
 
 var current_attack : AttackData
@@ -51,3 +53,6 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	
 func onAttackFinished():
 	Transitioned.emit(self, "Moving")
+
+func playSmearAnimaiton():
+	smear_frame_animation_player.play(current_attack.smear_animation_name)

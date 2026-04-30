@@ -4,6 +4,7 @@ class_name PlayerMoveState
 @export var move_anim : String = "Null_state"
 
 func Enter(data = null):
+	print("Moving Enter aangeroepen")
 	player_state_machine.travel(move_anim)
 
 func onAttackInput(attack_name: String):

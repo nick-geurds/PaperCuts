@@ -7,16 +7,23 @@ signal onParryStateChange(current_state : bool)
 @export var parry_window : Timer
 @export var parry_anim_name : String
 
+@export var stanima_cost : int = 1
+@export var stanima_component : StanimaComponent
+
 var isParrying : bool = false
 var wait_time : float
 
 func Enter(data = null):
-	player_state_machine.travel(parry_anim_name)
-	wait_time = parry_window.wait_time
-	if isParrying:
-		return
 	isParrying = true
-	setParryState()
+	
+	if stanima_component != null:
+		if stanima_component.hasEnoughStanimaLeft(stanima_cost):
+			stanima_component.reduceStamina(stanima_cost)
+			player_state_machine.travel(parry_anim_name)
+			wait_time = parry_window.wait_time
+			setParryState()
+		else:
+			onParryFinished()
 
 func setParryState():
 	onParryStateChange.emit(true)
@@ -34,5 +41,7 @@ func onParryFinished():
 	Transitioned.emit(self, "Moving")
 
 func onMoveInput():
+	if not isParrying:
+		return
 	onParryStateChange.emit(false)
 	Transitioned.emit(self, "Moving")

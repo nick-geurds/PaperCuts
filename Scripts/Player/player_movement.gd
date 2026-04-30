@@ -8,6 +8,9 @@ signal getPosition(ObserverName : String, index : int)
 
 signal setDirection(isFacingRight : bool)
 
+@export var stanima_cost_to_move : int = 1
+
+@export var stanima_component : StanimaComponent
 @export var player_state_machine : PlayerStateMachine
 @export var moving_state : State
 @onready var slot_data : SlotDataTransform = get_tree().current_scene.get_node("Slot_Data")
@@ -44,7 +47,12 @@ func _on_player_on_move(direction: float) -> void:
 		else :
 			onDirectionChange.emit(false)
 	else:
-		CheckIfCanMove()
+		if stanima_component != null:
+			if stanima_component.hasEnoughStanimaLeft(stanima_cost_to_move):
+				stanima_component.reduceStamina(stanima_cost_to_move)
+				CheckIfCanMove()
+		#else:
+			#CheckIfCanMove()
 	
 	lastDirection = direction
 	onPlayerPositionChanged.emit(player_name ,currentIndex, lastDirection)

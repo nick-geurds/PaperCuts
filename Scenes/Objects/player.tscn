@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ckohoao8jfk17" path="res://Scripts/Player/player_input.gd" id="1_5uqce"]
 [ext_resource type="Script" uid="uid://brp6mwqfadobf" path="res://Scripts/Player/player_movement.gd" id="2_h6i5h"]
 [ext_resource type="Script" uid="uid://crq2riomdl0tx" path="res://Scripts/Player/PlayerStates/state_machine_player.gd" id="2_jvxap"]
+[ext_resource type="Script" uid="uid://dvsl1ejeq7qfb" path="res://Scripts/Player/stanima_component.gd" id="2_v7n4v"]
 [ext_resource type="Script" uid="uid://dhhcukt1be6h0" path="res://Scripts/Player/PlayerStates/player_move_state.gd" id="3_jvxap"]
 [ext_resource type="Script" uid="uid://bu3lgmhj8re6j" path="res://Scripts/Player/PlayerStates/player_attacking_state.gd" id="4_0b04c"]
 [ext_resource type="PackedScene" uid="uid://ck46ihkpkr612" path="res://Scenes/Components/HitBox_Component.tscn" id="4_2i876"]
@@ -510,6 +511,11 @@ graph_offset = Vector2(101, 13)
 [node name="Player" type="Node" unique_id=1312596246]
 script = ExtResource("1_5uqce")
 
+[node name="StanimaComponent" type="Node" parent="." unique_id=1578464131]
+script = ExtResource("2_v7n4v")
+max_stanima = 7
+stanima_recovery = 0.6
+
 [node name="ParryComponent" type="Node" parent="." unique_id=1661728965]
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1321914618]
@@ -530,13 +536,14 @@ player_state_machine = NodePath("..")
 can_move = true
 metadata/_custom_type_script = "uid://dhhcukt1be6h0"
 
-[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("melee_attack_hitbox", "spawn_attack_handler", "smear_frame_animation_player", "player_state_machine")]
+[node name="Attacking" type="Node" parent="PlayerStateMachine" unique_id=1973881513 node_paths=PackedStringArray("melee_attack_hitbox", "spawn_attack_handler", "smear_frame_animation_player", "stanima_component", "player_state_machine")]
 script = ExtResource("4_0b04c")
 base_attack = ExtResource("5_1mxid")
 heavy_attack = ExtResource("6_h2jbs")
 melee_attack_hitbox = NodePath("../../PlayerMoveComponent/HitboxPositionSetter/HitBoxComponent")
 spawn_attack_handler = NodePath("../../SpikeSpawnHandler")
 smear_frame_animation_player = NodePath("SmearFramesAttacks")
+stanima_component = NodePath("../../StanimaComponent")
 player_state_machine = NodePath("..")
 metadata/_custom_type_script = "uid://bu3lgmhj8re6j"
 
@@ -548,11 +555,12 @@ one_shot = true
 root_node = NodePath("../../..")
 libraries/ = SubResource("AnimationLibrary_v7n4v")
 
-[node name="Parrying" type="Node" parent="PlayerStateMachine" unique_id=893232757 node_paths=PackedStringArray("player_hurtbox", "parry_window", "player_state_machine")]
+[node name="Parrying" type="Node" parent="PlayerStateMachine" unique_id=893232757 node_paths=PackedStringArray("player_hurtbox", "parry_window", "stanima_component", "player_state_machine")]
 script = ExtResource("8_u2cyj")
 player_hurtbox = NodePath("../../PlayerMoveComponent/HurtBoxComponent")
 parry_window = NodePath("Parry_window")
 parry_anim_name = "Parry"
+stanima_component = NodePath("../../StanimaComponent")
 player_state_machine = NodePath("..")
 can_move = true
 
@@ -570,8 +578,9 @@ metadata/_custom_type_script = "uid://npndr3bxjcjc"
 [node name="SpikeSpawn" type="AnimationPlayer" parent="SpikeSpawnHandler" unique_id=1471742064]
 libraries/ = SubResource("AnimationLibrary_8ietw")
 
-[node name="PlayerMoveComponent" type="Node2D" parent="." unique_id=392294361 node_paths=PackedStringArray("player_state_machine", "moving_state")]
+[node name="PlayerMoveComponent" type="Node2D" parent="." unique_id=392294361 node_paths=PackedStringArray("stanima_component", "player_state_machine", "moving_state")]
 script = ExtResource("2_h6i5h")
+stanima_component = NodePath("../StanimaComponent")
 player_state_machine = NodePath("../PlayerStateMachine")
 moving_state = NodePath("../PlayerStateMachine/Moving")
 

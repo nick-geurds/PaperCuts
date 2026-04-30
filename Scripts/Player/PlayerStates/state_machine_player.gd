@@ -39,14 +39,16 @@ func onChildStateTransitioned(state, new_state_name, data = null):
 	
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
+		print("STATE NIET GEVONDEN: ", new_state_name.to_lower())
+		print("beschikbare states: ", states.keys())
 		return
 	
 	if player_current_state:
 		player_current_state.Exit()
 	
+	player_current_state = new_state
 	new_state.Enter(data)
 	
-	player_current_state = new_state
 	
 	state_debug.text = "state = " + str(player_current_state)
 
